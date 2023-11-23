@@ -10,11 +10,20 @@ html {
 }
 
 a {
-  background-color: #216477;
   text-decoration: none;
-  color: white;
   padding: 10px;
   border-radius: 15px;
+}
+a.other-a {
+  background-color: #216477;
+  color: white;
+}
+a.other-a:hover {
+  background-color: #1f454f;
+}
+a.current-a {
+  background-color: #b3d6e0;
+  color: black;
 }
 
 .roles {

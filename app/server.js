@@ -20,5 +20,13 @@ app.get('/', async (req, res) => {
 	res.render('index', {role: "пользователь"});
 });
 
+app.get('/search-by-name', async (req, res) => {
+	res.render('search', {role: "пользователь"});
+});
+
+app.get('/extended-search', async (req, res) => {
+	res.render('extendedSearch', {role: "пользователь"});
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log('Server started'));
