@@ -1,0 +1,56 @@
+$title-color: #057D9F
+$secondary-background-color: #39AECF
+$dark-color: #216477
+$dark-color-hover: #1f454f
+$background: #61B7CF
+$current-menu-link-color: #b3d6e0
+
+html
+    background-color: $background
+    padding: 3vw 3vw
+
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+    
+a 
+    text-decoration: none
+    padding: 10px
+    border-radius: 15px
+    &.other-a
+        background-color: $dark-color
+        color: white
+        &:hover
+            background-color: $dark-color-hover
+    &.current-a
+        background-color: $current-menu-link-color
+        color: black
+
+
+.roles 
+    display: flex
+    justify-content: right
+    gap: 30px
+    align-items: center
+    padding: 10px 60px 10px
+
+h1
+    background-color: $title-color
+    color: white
+    padding: 20px
+    vertical-align: middle
+    border-radius: 20px
+
+.main-menu 
+    display: block
+    background-color: $secondary-background-color
+    text-align: center
+    align-items: center
+    border-radius: 20px
+
+.menu-links
+    display: flex
+    gap: 20px
+    padding: 20px
+    justify-content: center

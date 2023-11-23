@@ -1,0 +1,60 @@
+html {
+  background-color: #61B7CF;
+  padding: 3vw 3vw;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 15px;
+}
+a.other-a {
+  background-color: #216477;
+  color: white;
+}
+a.other-a:hover {
+  background-color: #1f454f;
+}
+a.current-a {
+  background-color: #b3d6e0;
+  color: black;
+}
+
+.roles {
+  display: flex;
+  justify-content: right;
+  gap: 30px;
+  align-items: center;
+  padding: 10px 60px 10px;
+}
+
+h1 {
+  background-color: #057D9F;
+  color: white;
+  padding: 20px;
+  vertical-align: middle;
+  border-radius: 20px;
+}
+
+.main-menu {
+  display: block;
+  background-color: #39AECF;
+  text-align: center;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.menu-links {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -14,9 +14,18 @@ const app = express();
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.get('/', async (req, res) => {
-	res.render('index');
+	res.render('index', {role: "пользователь"});
+});
+
+app.get('/search-by-name', async (req, res) => {
+	res.render('search', {role: "пользователь"});
+});
+
+app.get('/extended-search', async (req, res) => {
+	res.render('extendedSearch', {role: "пользователь"});
 });
 
 const PORT = process.env.PORT || 3000;
