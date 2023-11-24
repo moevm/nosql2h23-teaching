@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { load } from 'cheerio';
-import fs, { link } from 'fs';
+import fs from 'fs';
+import * as enums from './enums_db.js';
 
 const url = 'https://petersburgedu.ru';
 const url_page = (n) => url + `/institution/content/search/page/${n}`;
@@ -114,6 +115,10 @@ axios
 					}
 				});
 
+				organization.type = enums.orgTypeToInd(organization.name);
+				organization.subtype = Math.max(enums.orgSubtypeToInd(organization.subtype), 0);
+				organization.category = Math.max(enums.orgCategoryToInd(organization.category), 0);
+				organization.location = Math.max(enums.orgLocationToInd(organization.location), 0);
 				organizations.push(organization);
 
 				let endTime = new Date();
