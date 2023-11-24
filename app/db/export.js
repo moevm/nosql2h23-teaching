@@ -23,24 +23,7 @@ console.log(`Starting export to file '${filePath}'`);
 
 	const organizations = [];
 	for (const [i, ogrn] of ids.entries()) {
-		organizations.push({
-			number: await db.get(`number:${ogrn}`),
-			name: await db.get(`name:${ogrn}`),
-			short_name: await db.get(`short_name:${ogrn}`),
-			address: await db.get(`address:${ogrn}`),
-			fias: await db.get(`fias:${ogrn}`),
-			mngr_pos: await db.get(`mngr_pos:${ogrn}`),
-			mngr_name: await db.get(`mngr_name:${ogrn}`),
-			type: await db.get(`type:${ogrn}`),
-			subtype: await db.get(`subtype:${ogrn}`),
-			category: await db.get(`category:${ogrn}`),
-			tel: await db.get(`tel:${ogrn}`),
-			location: await db.get(`location:${ogrn}`),
-			ogrn: await db.get(`ogrn:${ogrn}`),
-			e_diary: await db.get(`e_diary:${ogrn}`),
-			website: await db.get(`website:${ogrn}`),
-			email: await db.get(`email:${ogrn}`),
-		});
+		organizations.push(await db.getOrganization(ogrn));
 		console.log(`Organization read ${i + 1}/${len}`);
 	}
 
