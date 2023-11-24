@@ -20,6 +20,20 @@ function get(key) {
 	});
 }
 
+async function getArray(key) {
+	return JSON.parse(await this.get(key));
+}
+
+async function setArray(key, value) {
+	await this.set(key, JSON.stringify(value));
+}
+
+async function appendArray(key, value) {
+	const arr = await this.getArray(key);
+	arr.push(value);
+	await this.setArray(key, arr);
+}
+
 function close() {
 	this.memcached.end();
 }
@@ -31,6 +45,9 @@ export const dbConnect = (addr) => {
 		memcached: new Memcached(addr),
 		set,
 		get,
+		setArray,
+		getArray,
+		appendArray,
 		close,
 	};
 	return instance;

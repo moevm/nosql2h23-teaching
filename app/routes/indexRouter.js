@@ -9,6 +9,12 @@ router.get('/', async (req, res) => {
 	await db.set('key1', 'value1123');
 	console.log(await db.get('key1'));
 
+	await db.setArray('arr', [1, 2]);
+	console.log(await db.getArray('arr'));
+
+	await db.appendArray('arr', 12);
+	console.log(await db.getArray('arr'));
+
 	res.render('index', { role: 'пользователь' });
 });
 
