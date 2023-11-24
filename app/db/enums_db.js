@@ -78,3 +78,12 @@ export const orgCategoryFromInd = (i) => categories[i];
 export const orgCategoryToInd = (str) => {
 	return categories.findIndex((category) => category.includes(str));
 };
+
+export const enumLengths = () => {
+	return {
+		locations: locations.length,
+		types: types.length,
+		subtypes: subtypes.length,
+		categories: categories.length,
+	};
+};

@@ -5,7 +5,10 @@
 	"main": "server.js",
 	"type": "module",
 	"scripts": {
-		"parse": "node db/parse_db"
+		"parse": "node db/parse_db",
+		"import": "node db/import",
+		"import_parsed": "node db/import -P",
+		"export": "node db/export"
 	},
 	"author": "",
 	"license": "ISC",

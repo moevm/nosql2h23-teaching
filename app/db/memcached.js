@@ -4,7 +4,7 @@ let instance = null;
 
 function set(key, value) {
 	return new Promise((resolve, reject) => {
-		this.memcached.set(key, value, 0, (err) => {
+		this.memcached.set(key.toString(), value ? value.toString() : '', 0, (err) => {
 			if (err) reject(err);
 			resolve();
 		});
@@ -13,11 +13,15 @@ function set(key, value) {
 
 function get(key) {
 	return new Promise((resolve, reject) => {
-		this.memcached.get(key, (err, data) => {
+		this.memcached.get(key.toString(), (err, data) => {
 			if (err) reject(err);
 			resolve(data);
 		});
 	});
+}
+
+function close() {
+	this.memcached.end();
 }
 
 export const dbConnect = (addr) => {
@@ -27,6 +31,7 @@ export const dbConnect = (addr) => {
 		memcached: new Memcached(addr),
 		set,
 		get,
+		close,
 	};
 	return instance;
 };

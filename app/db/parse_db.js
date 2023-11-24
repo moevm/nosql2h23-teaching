@@ -8,7 +8,7 @@ const url_page = (n) => url + `/institution/content/search/page/${n}`;
 const url_org = (link) => url + link;
 const page_limit = 1;
 
-let globalStartTime = new Date();
+const globalStartTime = new Date();
 
 axios
 	.get(url_page(0))
@@ -98,6 +98,7 @@ axios
 						case 'Телефон':
 							organization.tel = text;
 							break;
+						case 'Район':
 						case 'Расположение':
 							organization.location = text;
 							break;
@@ -132,8 +133,37 @@ axios
 				`Retrieving organization info complete - ${(stepEndTime - stepStartTime) / 1000}s`
 			);
 
-			fs.writeFile('db/db_parsed.json', JSON.stringify(organizations, null, 4), (err) => {
-				let globalEndTime = new Date();
+			const ids = [];
+			const orgType = [];
+			const orgSubtype = [];
+			const orgCategory = [];
+			const orgLocation = [];
+
+			const enumLen = enums.enumLengths();
+			for (let i = 0; i < enumLen.locations; i++) orgLocation[i] = [];
+			for (let i = 0; i < enumLen.types; i++) orgType[i] = [];
+			for (let i = 0; i < enumLen.subtypes; i++) orgSubtype[i] = [];
+			for (let i = 0; i < enumLen.categories; i++) orgCategory[i] = [];
+
+			organizations.forEach((org) => {
+				ids.push(org.ogrn);
+				orgLocation[org.location].push(org.ogrn);
+				orgType[org.type].push(org.ogrn);
+				orgSubtype[org.subtype].push(org.ogrn);
+				orgCategory[org.category].push(org.ogrn);
+			});
+
+			const db = {
+				organizations,
+				ids,
+				orgType,
+				orgSubtype,
+				orgCategory,
+				orgLocation,
+			};
+
+			fs.writeFile('db/db_parsed.json', JSON.stringify(db, null, 4), (err) => {
+				const globalEndTime = new Date();
 				console.log(`Parsing completed - ${(globalEndTime - globalStartTime) / 1000}s`);
 			});
 		}
