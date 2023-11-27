@@ -24,8 +24,10 @@ html(lang="en")
                 li #{name}
         br
         div(class="page")
-            a(href=`/search-by-name?page=${page-1}&search=${searchQuery}`) Предыдущая
+            a(href=`/search-by-name?page=1&search=${searchQuery}`) <<
+            a(href=`/search-by-name?page=${page-1}&search=${searchQuery}`) <
             p Номер страницы: #{page}
-            a(href=`/search-by-name?page=${page+1}&search=${searchQuery}`) Следующая
+            a(href=`/search-by-name?page=${page+1}&search=${searchQuery}`) >
+            a(href=`/search-by-name?page=${totalPages}&search=${searchQuery}`) >>
             
 

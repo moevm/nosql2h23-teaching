@@ -1,4 +1,4 @@
-export const locations = [
+const locations = [
 	'Адмиралтейский',
 	'Василеостровский',
 	'Выборгский',
@@ -20,14 +20,14 @@ export const locations = [
 	'Центральный',
 ];
 
-export const types = [
+const types = [
 	'Детские сады',
 	'Образовательные учреждения',
 	'Учреждения начального и среднего профессионального образования',
 	'Учреждения дополнительного образования',
 ];
 
-export const subtypes = [
+const subtypes = [
 	'Дошкольные образовательные учреждения',
 	'Образовательные учреждения дополнительного образования детей',
 	'Образовательные учреждения высшего профессионального образования',
@@ -44,7 +44,7 @@ export const subtypes = [
 	'Суворовские военные, нахимовские военно-морские училища и кадетские (морские кадетские) корпуса',
 ];
 
-export const categories = [
+const categories = [
 	'Академия',
 	'Гимназия',
 	'Дворец',
@@ -91,6 +91,8 @@ export const categories = [
 	'Центр психолого-педагогической реабилитации и коррекции',
 	'Центр развития ребенка - детский сад',
 ];
+
+export const enums = {types, subtypes, categories, locations}
 
 export const orgLocationFromInd = (i) => locations[i];
 export const orgLocationToInd = (str) => {

@@ -1,6 +1,6 @@
 import express from 'express'
 import { getDB } from '../db/memcached.js'
-import {locations, types, subtypes, categories} from '../db/enums_db.js'
+import { enums } from '../db/enums_db.js'
 
 const router = express.Router()
 
@@ -43,8 +43,54 @@ router.get('/search-by-name', async (req, res) => {
 })
 
 router.get('/extended-search', async (req, res) => {
-	const db = getDB()
-	res.render('extendedSearch', { role: 'пользователь' , locations, types, subtypes, categories})
+	const db = getDB();
+	const ids = await db.getArray('ids');
+
+	const limit = 3;
+	let page = parseInt(req.query.page) || 1;
+
+	const names = await Promise.all(ids.map((id) => db.get(`name:${id}`)));
+	const types = await Promise.all(ids.map((id) => db.get(`type:${id}`)));
+	const subtypes = await Promise.all(ids.map((id) => db.get(`subtype:${id}`)));
+	const categories = await Promise.all(ids.map((id) => db.get(`category:${id}`)));
+	const locations = await Promise.all(ids.map((id) => db.get(`location:${id}`)));
+
+	let orgInfo = [];
+	ids.forEach((id, index) => {
+		orgInfo.push({id, name: names[index], type: types[index], subtype: subtypes[index], category: categories[index], location: locations[index]})
+	});
+
+	const queryParams = {}
+	queryParams.search = req.query.search || ''
+	queryParams.type = req.query.type || "-1"
+	queryParams.subtype = req.query.subtype || "-1"
+	queryParams.category = req.query.category || "-1"
+	queryParams.location = req.query.location || "-1"
+
+	orgInfo = orgInfo.filter((info) => info.name.toLowerCase().includes(queryParams.search.toLowerCase()));
+	if (req.query.type != "-1") orgInfo = orgInfo.filter((info) => info.type == req.query.type);
+	if (req.query.subtype != "-1") orgInfo = orgInfo.filter((info) => info.subtype == req.query.subtype);
+	if (req.query.category != "-1") orgInfo = orgInfo.filter((info) => info.category == req.query.category);
+	if (req.query.location != "-1") orgInfo = orgInfo.filter((info) => info.location == req.query.location);
+
+	const totalPages = Math.ceil(orgInfo.length / limit)
+	page = Math.min(Math.max(page, 1), totalPages)
+	const startIndex = (page - 1) * limit
+	const endIndex = page * limit
+
+	const orgsOnPage = orgInfo.slice(startIndex, endIndex)
+
+	res.render('extendedSearch', { 
+		role: 'пользователь' ,
+		orgsOnPage, 
+		locations: enums.locations, 
+		types: enums.types, 
+		subtypes: enums.subtypes, 
+		categories: enums.categories,
+		page,
+		totalPages, 
+		queryParams
+	})
 })
 
 export default router
