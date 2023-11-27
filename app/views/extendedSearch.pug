@@ -14,4 +14,30 @@ html(lang="en")
             div(class="menu-links")
                 a(href="/" class="other-a") Общая статистика
                 a(href="/search-by-name" class="other-a") Поиск по названию
-                a(href="/extended-search" class="current-a") Расширенный поиск 
+                a(href="/extended-search" class="current-a") Расширенный поиск
+        div(class="filters")
+            form(action="/search-by-name" method="get")
+                label(for="select_type") Тип организации
+                select(id="select_type" name="type")
+                    option(value="-1") Любой
+                    each type, index in types 
+                        option(value=index) #{type} 
+                label(for="select_subtype") Подтип организации
+                select(id="select_subtype" name="subtype")
+                    option(value="-1") Любой
+                    each subtype, index in subtypes 
+                        option(value=index) #{subtype} 
+                label(for="select_category") Вид организации
+                select(id="select_category" name="category")
+                    option(value="-1") Любой
+                    each category, index in categories
+                        option(value=index) #{category} 
+                label(for="select_location") Район
+                select(id="select_location" name="location")
+                    option(value="-1") Любой
+                    each location, index in locations
+                        option(value=index) #{location} 
+
+                label(for="name") Название организации
+                input(id="name" class="search-input" type="text" name="search" placeholder="Название организации" value=`${searchQuery}`)
+                button(class="search-btn" type="submit") Поиск

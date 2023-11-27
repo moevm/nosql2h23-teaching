@@ -1,9 +1,11 @@
 import express from 'express'
 import { getDB } from '../db/memcached.js'
+import {locations, types, subtypes, categories} from '../db/enums_db.js'
 
 const router = express.Router()
 
 router.get('/', async (req, res) => {
+	const db = getDB()
 	await db.set('key1', 'value1123')
 	console.log(await db.get('key1'))
 
@@ -41,7 +43,8 @@ router.get('/search-by-name', async (req, res) => {
 })
 
 router.get('/extended-search', async (req, res) => {
-	res.render('extendedSearch', { role: 'пользователь' })
+	const db = getDB()
+	res.render('extendedSearch', { role: 'пользователь' , locations, types, subtypes, categories})
 })
 
 export default router

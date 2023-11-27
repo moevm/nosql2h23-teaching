@@ -1,94 +1,64 @@
 html {
-	background-color: #61b7cf;
-	padding: 3vw 3vw;
+  background-color: #61B7CF;
+  padding: 3vw 3vw;
 }
 
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 a {
-	text-decoration: none;
-	padding: 10px;
-	border-radius: 15px;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 15px;
 }
 a.other-a {
-	background-color: #216477;
-	color: white;
+  background-color: #216477;
+  color: white;
 }
 a.other-a:hover {
-	background-color: #1f454f;
+  background-color: #1f454f;
 }
 a.current-a {
-	background-color: #b3d6e0;
-	color: black;
+  background-color: #b3d6e0;
+  color: black;
 }
 
 .roles {
-	display: flex;
-	justify-content: right;
-	gap: 30px;
-	align-items: center;
-	padding: 10px 60px 10px;
+  display: flex;
+  justify-content: right;
+  gap: 30px;
+  align-items: center;
+  padding: 10px 60px 10px;
 }
 
 h1 {
-	background-color: #057d9f;
-	color: white;
-	padding: 20px;
-	vertical-align: middle;
-	border-radius: 20px;
+  background-color: #057D9F;
+  color: white;
+  padding: 20px;
+  vertical-align: middle;
+  border-radius: 20px;
 }
 
 .main-menu {
-	display: block;
-	background-color: #39aecf;
-	text-align: center;
-	align-items: center;
-	border-radius: 20px;
+  display: block;
+  background-color: #39AECF;
+  text-align: center;
+  align-items: center;
+  border-radius: 20px;
 }
 
 .menu-links {
-	display: flex;
-	gap: 20px;
-	padding: 20px;
-	justify-content: center;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
 }
 
-.search {
-	text-align: center;
-	margin-top: 20px;
-}
-
-.search-input {
-	border-radius: 15px;
-	padding: 7px;
-}
-
-.search-btn {
-	border-radius: 15px;
-	padding: 7px;
-}
-
-.list {
-	margin-top: 20px;
-}
-
-.page {
-	display: flex;
-	justify-content: center;
-	margin-top: 20px;
-}
-
-.page a {
-	margin: 0 10px;
-	text-decoration: none;
-}
-
-.page p {
-	margin: 0 10px;
+.filters * {
+  display: block;
 }
 
 /*# sourceMappingURL=style.css.map */
