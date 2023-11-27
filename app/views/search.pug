@@ -15,3 +15,17 @@ html(lang="en")
                 a(href="/" class="other-a") Общая статистика
                 a(href="/search-by-name" class="current-a") Поиск по названию
                 a(href="/extended-search" class="other-a") Расширенный поиск 
+        div(class="search")
+            form(action="/search-by-name" method="get")
+                input(class="search-input" type="text" name="search" placeholder="Введите название организации" value=`${searchQuery}`)
+                button(class="search-btn" type="submit") Поиск
+        ul(class="list")
+            each name in names
+                li #{name}
+        br
+        div(class="page")
+            a(href=`/search-by-name?page=${page-1}&search=${searchQuery}`) Предыдущая
+            p Номер страницы: #{page}
+            a(href=`/search-by-name?page=${page+1}&search=${searchQuery}`) Следующая
+            
+
