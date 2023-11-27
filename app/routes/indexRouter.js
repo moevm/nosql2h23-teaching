@@ -50,6 +50,8 @@ router.get('/extended-search', async (req, res) => {
 	let page = parseInt(req.query.page) || 1;
 
 	const names = await Promise.all(ids.map((id) => db.get(`name:${id}`)));
+	const short_names = await Promise.all(ids.map((id) => db.get(`short_name:${id}`)));
+	const addresses = await Promise.all(ids.map((id) => db.get(`address:${id}`)));
 	const types = await Promise.all(ids.map((id) => db.get(`type:${id}`)));
 	const subtypes = await Promise.all(ids.map((id) => db.get(`subtype:${id}`)));
 	const categories = await Promise.all(ids.map((id) => db.get(`category:${id}`)));
@@ -57,7 +59,7 @@ router.get('/extended-search', async (req, res) => {
 
 	let orgInfo = [];
 	ids.forEach((id, index) => {
-		orgInfo.push({id, name: names[index], type: types[index], subtype: subtypes[index], category: categories[index], location: locations[index]})
+		orgInfo.push({id, type_name: enums.types[+types[index]], address: addresses[index], short_name: short_names[index], name: names[index], type: types[index], subtype: subtypes[index], category: categories[index], location: locations[index]})
 	});
 
 	const queryParams = {}

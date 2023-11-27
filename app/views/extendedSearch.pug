@@ -54,7 +54,10 @@ html(lang="en")
                 button(class="search-btn" type="submit") Поиск
         ul(class="list")
             each org in orgsOnPage
-                li #{org.name}
+                li
+                    a(href=`/organization-page?id=${org.id}`) #{org.short_name}
+                    p <b>Адрес</b>: #{org.address}
+                    p <b>Тип:</b> #{org.type_name}
         br
         div(class="page")
             a(href=`/extended-search?page=1&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <<
