@@ -68,12 +68,12 @@ router.get('/extended-search', async (req, res) => {
 	queryParams.subtype = req.query.subtype || "-1"
 	queryParams.category = req.query.category || "-1"
 	queryParams.location = req.query.location || "-1"
-
+	
 	orgInfo = orgInfo.filter((info) => info.name.toLowerCase().includes(queryParams.search.toLowerCase()));
-	if (req.query.type != "-1") orgInfo = orgInfo.filter((info) => info.type == req.query.type);
-	if (req.query.subtype != "-1") orgInfo = orgInfo.filter((info) => info.subtype == req.query.subtype);
-	if (req.query.category != "-1") orgInfo = orgInfo.filter((info) => info.category == req.query.category);
-	if (req.query.location != "-1") orgInfo = orgInfo.filter((info) => info.location == req.query.location);
+	if (queryParams.type != "-1") orgInfo = orgInfo.filter((info) => info.type == queryParams.type);
+	if (queryParams.subtype != "-1") orgInfo = orgInfo.filter((info) => info.subtype == queryParams.subtype);
+	if (queryParams.category != "-1") orgInfo = orgInfo.filter((info) => info.category == queryParams.category);
+	if (queryParams.location != "-1") orgInfo = orgInfo.filter((info) => info.location == queryParams.location);
 
 	const totalPages = Math.ceil(orgInfo.length / limit)
 	page = Math.min(Math.max(page, 1), totalPages)
