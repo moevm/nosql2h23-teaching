@@ -1,0 +1,45 @@
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+        link(rel='stylesheet', href='/public/style.css')
+    body 
+        div(class="roles")
+            p Роль: #{role}
+            button Администрирование
+        div(class="main-menu")
+            h1 Образовательные организации Санкт-Петербурга
+            div(class="menu-links")
+                a(href="/" class="other-a") Общая статистика
+                a(href="/search-by-name" class="other-a") Поиск по названию
+                a(href="/extended-search" class="other-a") Расширенный поиск
+        div
+            h2 Страница организации #{info.short_name}
+            p <b>Полное наименование:</b> #{info.name}
+            p <b>Короткое наименование:</b> #{info.short_name}
+            p <b>Адрес:</b> #{info.address}
+            if info.fias
+                p <b>Код здания ФИАС:</b> #{info.fias}
+            if info.mngr_pos
+                p <b>Должность руководителя:</b> #{info.mngr_pos}
+            if info.mngr_name
+                p <b>ФИО руководителя:</b> #{info.mngr_name}
+            p <b>Тип организации:</b> #{types[+info.type]}
+            p <b>Подтип организации:</b> #{subtypes[+info.subtype]}
+            p <b>Вид организации:</b> #{categories[+info.category]}
+            if info.tel
+                p <b>Телефон:</b> #{info.tel}
+            p <b>Район:</b> #{locations[+info.location]}
+            p <b>ОГРН организации:</b> #{info.id}
+            p <b>Статус сервиса "Электронный дневник":</b>
+                if info.ediary
+                    span Включен
+                else 
+                    span Отсутствует
+            if info.website
+                p <b>Адрес сайта в сети Интернет:</b> 
+                    a(href=`${info.website}`) #{info.website}
+            if info.email
+                p <b>Адрес электронной почты:</b> #{info.email}
+            

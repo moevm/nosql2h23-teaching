@@ -95,4 +95,18 @@ router.get('/extended-search', async (req, res) => {
 	})
 })
 
+router.get('/organization-page', async (req, res) => {
+	const db = getDB();
+	const id = req.query.id;
+	let info = await db.getOrganization(id);
+	info.id = id;
+	res.render('organizationPage', {
+		info,
+		locations: enums.locations, 
+		types: enums.types, 
+		subtypes: enums.subtypes, 
+		categories: enums.categories,
+	});
+})
+
 export default router
