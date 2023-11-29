@@ -30,6 +30,10 @@ a.current-a {
   background-color: #b3d6e0;
   color: black;
 }
+a[disabled] {
+  pointer-events: none;
+  opacity: 0;
+}
 
 .roles {
   display: flex;

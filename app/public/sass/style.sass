@@ -24,6 +24,9 @@ a
     &.current-a
         background-color: $current-menu-link-color
         color: black
+    &[disabled]
+        pointer-events: none
+        opacity: 0
 
 .roles
     display: flex

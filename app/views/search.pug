@@ -14,7 +14,7 @@ html(lang="en")
             h1 Образовательные организации Санкт-Петербурга
             div(class="menu-links")
                 a(href="/" class="other-a") Общая статистика
-                a(href="/search-by-name" class="current-a") Поиск по названию
+                a(class="current-a") Поиск по названию
                 a(href="/extended-search" class="other-a") Расширенный поиск 
         div(class="search")
             form(action="/search-by-name" method="get")
@@ -29,10 +29,10 @@ html(lang="en")
                         p <b>Тип:</b> #{org.type_name}
         br
         .pagination
-            a(href=`/search-by-name?page=1&search=${searchQuery}`) <i class="fa-solid fa-angles-left"></i>
-            a(href=`/search-by-name?page=${page-1}&search=${searchQuery}`) <i class="fa-solid fa-angle-left"></i>
+            a(disabled=(page===1) href=`/search-by-name?page=1&search=${searchQuery}`) <i class="fa-solid fa-angles-left"></i>
+            a(disabled=(page===1) href=`/search-by-name?page=${page-1}&search=${searchQuery}`) <i class="fa-solid fa-angle-left"></i>
             p Номер страницы: #{page}
-            a(href=`/search-by-name?page=${page+1}&search=${searchQuery}`) <i class="fa-solid fa-angle-right"></i>
-            a(href=`/search-by-name?page=${totalPages}&search=${searchQuery}`) <i class="fa-solid fa-angles-right"></i>
+            a(disabled=(page===totalPages) href=`/search-by-name?page=${page+1}&search=${searchQuery}`) <i class="fa-solid fa-angle-right"></i>
+            a(disabled=(page===totalPages) href=`/search-by-name?page=${totalPages}&search=${searchQuery}`) <i class="fa-solid fa-angles-right"></i>
             
 

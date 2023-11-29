@@ -14,7 +14,7 @@ html(lang="en")
             div(class="menu-links")
                 a(href="/" class="other-a") Общая статистика
                 a(href="/search-by-name" class="other-a") Поиск по названию
-                a(href="/extended-search" class="current-a") Расширенный поиск
+                a(class="current-a") Расширенный поиск
         div(class="filters")
             form(action="/extended-search" method="get")
                 .field
@@ -66,8 +66,8 @@ html(lang="en")
                         p <b>Тип:</b> #{org.type_name}
         br
         .pagination
-            a(href=`/extended-search?page=1&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <<
-            a(href=`/extended-search?page=${page-1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <
+            a(disabled=(page===1) href=`/extended-search?page=1&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <<
+            a(disabled=(page===1) href=`/extended-search?page=${page-1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <
             p Номер страницы: #{page}
-            a(href=`/extended-search?page=${page+1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) >
-            a(href=`/extended-search?page=${totalPages}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) >>
+            a(disabled=(page===totalPages) href=`/extended-search?page=${page+1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) >
+            a(disabled=(page===totalPages) href=`/extended-search?page=${totalPages}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) >>
