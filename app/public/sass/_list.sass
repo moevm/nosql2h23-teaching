@@ -1,0 +1,43 @@
+.list
+    width: 100%
+    li
+        width: 100%
+        margin: 8px 0
+        background-color: $current-menu-link-color
+        border-radius: 15px
+        list-style-type: none
+        .name
+            display: block
+            width: 100%
+            background-color: $dark-color
+            color: white
+            padding: 10px 20px
+            text-decoration: underline
+            text-decoration-thickness: 2px
+            transition: all 200ms ease
+            &:hover
+                color: lighten($current-menu-link-color, 12%)
+                background-color: darken($dark-color, 3%)
+        .info
+            padding: 10px 20px 20px
+            p:nth-child(1)
+                margin-bottom: 10px
+.pagination
+    margin: auto
+    max-width: 400px
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: 5px
+    a
+        color: white
+        width: 32px
+        height: 32px
+        padding: 7px 4px 4px 5px
+        text-align: center
+        background-color: $dark-color
+        font-weight: 600
+        border-radius: 50%
+        transition: all 200ms ease
+        &:hover
+            background-color: $dark-color-hover

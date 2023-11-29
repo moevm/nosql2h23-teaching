@@ -5,6 +5,7 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Document
         link(rel='stylesheet', href='/public/style.css')
+        script(src="https://kit.fontawesome.com/ac0925c6df.js" crossorigin="anonymous")
     body 
         div(class="roles")
             p Роль: #{role}
@@ -22,15 +23,16 @@ html(lang="en")
         ul(class="list")
             each org in orgsOnPage
                 li
-                    a(href=`/organization-page?id=${org.id}`) #{org.short_name}
-                    p <b>Адрес</b>: #{org.address}
-                    p <b>Тип:</b> #{org.type_name}
+                    a.name(href=`/organization-page?id=${org.id}`) #{org.short_name}
+                    .info
+                        p <b>Адрес</b>: #{org.address}
+                        p <b>Тип:</b> #{org.type_name}
         br
-        div(class="page")
-            a(href=`/search-by-name?page=1&search=${searchQuery}`) <<
-            a(href=`/search-by-name?page=${page-1}&search=${searchQuery}`) <
+        .pagination
+            a(href=`/search-by-name?page=1&search=${searchQuery}`) <i class="fa-solid fa-angles-left"></i>
+            a(href=`/search-by-name?page=${page-1}&search=${searchQuery}`) <i class="fa-solid fa-angle-left"></i>
             p Номер страницы: #{page}
-            a(href=`/search-by-name?page=${page+1}&search=${searchQuery}`) >
-            a(href=`/search-by-name?page=${totalPages}&search=${searchQuery}`) >>
+            a(href=`/search-by-name?page=${page+1}&search=${searchQuery}`) <i class="fa-solid fa-angle-right"></i>
+            a(href=`/search-by-name?page=${totalPages}&search=${searchQuery}`) <i class="fa-solid fa-angles-right"></i>
             
 

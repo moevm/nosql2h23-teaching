@@ -17,49 +17,55 @@ html(lang="en")
                 a(href="/extended-search" class="current-a") Расширенный поиск
         div(class="filters")
             form(action="/extended-search" method="get")
-                label(for="select_type") Тип организации
-                select(id="select_type" name="type")
-                    option(value="-1") Любой
-                    each type, index in types 
-                        if index == queryParams.type
-                            option(value=index selected="selected") #{type} 
-                        else 
-                            option(value=index) #{type} 
-                label(for="select_subtype") Подтип организации
-                select(id="select_subtype" name="subtype")
-                    option(value="-1") Любой
-                    each subtype, index in subtypes
-                        if index == queryParams.subtype
-                            option(value=index selected="selected") #{subtype} 
-                        else 
-                            option(value=index) #{subtype} 
-                label(for="select_category") Вид организации
-                select(id="select_category" name="category")
-                    option(value="-1") Любой
-                    each category, index in categories
-                        if index == queryParams.category
-                            option(value=index selected="selected") #{category} 
-                        else 
-                            option(value=index) #{category} 
-                label(for="select_location") Район
-                select(id="select_location" name="location")
-                    option(value="-1") Любой
-                    each location, index in locations
-                        if index == queryParams.location
-                            option(value=index selected="selected") #{location} 
-                        else 
-                            option(value=index) #{location}  
-                label(for="name") Название организации
-                input(id="name" class="search-input" type="text" name="search" placeholder="Название организации" value=`${queryParams.search}`)
+                .field
+                    label(for="select_type") Тип организации
+                    select(id="select_type" name="type")
+                        option(value="-1") Любой
+                        each type, index in types 
+                            if index == queryParams.type
+                                option(value=index selected="selected") #{type} 
+                            else 
+                                option(value=index) #{type} 
+                .field
+                    label(for="select_subtype") Подтип организации
+                    select(id="select_subtype" name="subtype")
+                        option(value="-1") Любой
+                        each subtype, index in subtypes
+                            if index == queryParams.subtype
+                                option(value=index selected="selected") #{subtype} 
+                            else 
+                                option(value=index) #{subtype} 
+                .field
+                    label(for="select_category") Вид организации
+                    select(id="select_category" name="category")
+                        option(value="-1") Любой
+                        each category, index in categories
+                            if index == queryParams.category
+                                option(value=index selected="selected") #{category} 
+                            else 
+                                option(value=index) #{category} 
+                .field
+                    label(for="select_location") Район
+                    select(id="select_location" name="location")
+                        option(value="-1") Любой
+                        each location, index in locations
+                            if index == queryParams.location
+                                option(value=index selected="selected") #{location} 
+                            else 
+                                option(value=index) #{location}  
+                .field
+                    label(for="name") Название организации
+                    input(id="name" class="search-input" type="text" name="search" placeholder="Название организации" value=`${queryParams.search}`)
                 button(class="search-btn" type="submit") Поиск
         ul(class="list")
             each org in orgsOnPage
                 li
-                    a(href=`/organization-page?id=${org.id}`) #{org.short_name}
-                    p <b>Адрес</b>: #{org.address}
-                    p <b>Тип:</b> #{org.type_name}
+                    a.name(href=`/organization-page?id=${org.id}`) #{org.short_name}
+                    .info
+                        p <b>Адрес</b>: #{org.address}
+                        p <b>Тип:</b> #{org.type_name}
         br
-        div(class="page")
+        .pagination
             a(href=`/extended-search?page=1&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <<
             a(href=`/extended-search?page=${page-1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <
             p Номер страницы: #{page}

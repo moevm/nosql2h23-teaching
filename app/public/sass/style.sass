@@ -1,20 +1,18 @@
-$title-color: #057D9F
-$secondary-background-color: #39AECF
-$dark-color: #216477
-$dark-color-hover: #1f454f
-$background: #61B7CF
-$current-menu-link-color: #b3d6e0
-
-html
-    background-color: $background
-    padding: 3vw 3vw
+@import "_vars"
 
 *
     margin: 0
     padding: 0
     box-sizing: border-box
-    
-a 
+
+html
+    background-color: $background
+    padding: 20px 50px 30px
+
+body, button, input
+    font-family: $font
+
+a
     text-decoration: none
     padding: 10px
     border-radius: 15px
@@ -27,13 +25,25 @@ a
         background-color: $current-menu-link-color
         color: black
 
-
-.roles 
+.roles
     display: flex
     justify-content: right
-    gap: 30px
+    gap: 20px
     align-items: center
-    padding: 10px 60px 10px
+    padding-bottom: 20px
+    p
+        font-size: 1.1rem
+        font-weight: 500
+    button
+        border: none
+        background-color: $dark-color
+        color: white
+        border-radius: 12px
+        font-size: 1rem
+        padding: 10px 12px
+        transition: all 200ms ease
+        &:hover
+            background-color: $dark-color-hover
 
 h1
     background-color: $title-color
@@ -42,7 +52,7 @@ h1
     vertical-align: middle
     border-radius: 20px
 
-.main-menu 
+.main-menu
     display: block
     background-color: $secondary-background-color
     text-align: center
@@ -55,5 +65,7 @@ h1
     padding: 20px
     justify-content: center
 
-.filters * 
-    display: block
+@import "_scrollbar"
+@import "_list"
+@import "_search"
+@import "_orgPage"

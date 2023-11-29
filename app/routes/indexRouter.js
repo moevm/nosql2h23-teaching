@@ -1,52 +1,58 @@
-import express from 'express'
-import { getDB } from '../db/memcached.js'
-import { enums } from '../db/enums_db.js'
+import express from 'express';
+import { getDB } from '../db/memcached.js';
+import { enums } from '../db/enums_db.js';
 
-const router = express.Router()
+const router = express.Router();
 
 router.get('/', async (req, res) => {
-	const db = getDB()
-	await db.set('key1', 'value1123')
-	console.log(await db.get('key1'))
+	const db = getDB();
+	// await db.set('key1', 'value1123')
+	// console.log(await db.get('key1'))
 
-	await db.setArray('arr', [1, 2])
-	console.log(await db.getArray('arr'))
+	// await db.setArray('arr', [1, 2])
+	// console.log(await db.getArray('arr'))
 
-	await db.appendArray('arr', 12)
-	console.log(await db.getArray('arr'))
+	// await db.appendArray('arr', 12)
+	// console.log(await db.getArray('arr'))
 
-	res.render('index', { role: 'пользователь' })
-})
+	res.render('index', { role: 'пользователь' });
+});
 
 router.get('/search-by-name', async (req, res) => {
-	const db = getDB()
+	const db = getDB();
 
-	const ids = await db.getArray('ids')
+	const ids = await db.getArray('ids');
 	const short_names = await Promise.all(ids.map((id) => db.get(`short_name:${id}`)));
 	const addresses = await Promise.all(ids.map((id) => db.get(`address:${id}`)));
 	const names = await Promise.all(ids.map((id) => db.get(`name:${id}`)));
 	const types = await Promise.all(ids.map((id) => db.get(`type:${id}`)));
 	let orgInfo = [];
 	ids.forEach((id, index) => {
-		orgInfo.push({id, name: names[index], type_name: enums.types[+types[index]], address: addresses[index], short_name: short_names[index]})
+		orgInfo.push({
+			id,
+			name: names[index],
+			type_name: enums.types[+types[index]],
+			address: addresses[index],
+			short_name: short_names[index],
+		});
 	});
 
-	const limit = 3
-	let page = parseInt(req.query.page) || 1
+	const limit = 3;
+	let page = parseInt(req.query.page) || 1;
 
-	const searchQuery = req.query.search || ''
+	const searchQuery = req.query.search || '';
 
 	orgInfo = orgInfo.filter((info) => info.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
-	const totalPages = Math.ceil(orgInfo.length / limit)
-	page = Math.min(Math.max(page, 1), totalPages)
-	const startIndex = (page - 1) * limit
-	const endIndex = page * limit
+	const totalPages = Math.ceil(orgInfo.length / limit);
+	page = Math.min(Math.max(page, 1), totalPages);
+	const startIndex = (page - 1) * limit;
+	const endIndex = page * limit;
 
-	const orgsOnPage = orgInfo.slice(startIndex, endIndex)
+	const orgsOnPage = orgInfo.slice(startIndex, endIndex);
 
-	res.render('search', { role: 'пользователь', orgsOnPage, page, totalPages, searchQuery })
-})
+	res.render('search', { role: 'пользователь', orgsOnPage, page, totalPages, searchQuery });
+});
 
 router.get('/extended-search', async (req, res) => {
 	const db = getDB();
@@ -65,41 +71,56 @@ router.get('/extended-search', async (req, res) => {
 
 	let orgInfo = [];
 	ids.forEach((id, index) => {
-		orgInfo.push({id, type_name: enums.types[+types[index]], address: addresses[index], short_name: short_names[index], name: names[index], type: types[index], subtype: subtypes[index], category: categories[index], location: locations[index]})
+		orgInfo.push({
+			id,
+			type_name: enums.types[+types[index]],
+			address: addresses[index],
+			short_name: short_names[index],
+			name: names[index],
+			type: types[index],
+			subtype: subtypes[index],
+			category: categories[index],
+			location: locations[index],
+		});
 	});
 
-	const queryParams = {}
-	queryParams.search = req.query.search || ''
-	queryParams.type = req.query.type || "-1"
-	queryParams.subtype = req.query.subtype || "-1"
-	queryParams.category = req.query.category || "-1"
-	queryParams.location = req.query.location || "-1"
-	
-	orgInfo = orgInfo.filter((info) => info.name.toLowerCase().includes(queryParams.search.toLowerCase()));
-	if (queryParams.type != "-1") orgInfo = orgInfo.filter((info) => info.type == queryParams.type);
-	if (queryParams.subtype != "-1") orgInfo = orgInfo.filter((info) => info.subtype == queryParams.subtype);
-	if (queryParams.category != "-1") orgInfo = orgInfo.filter((info) => info.category == queryParams.category);
-	if (queryParams.location != "-1") orgInfo = orgInfo.filter((info) => info.location == queryParams.location);
+	const queryParams = {};
+	queryParams.search = req.query.search || '';
+	queryParams.type = req.query.type || '-1';
+	queryParams.subtype = req.query.subtype || '-1';
+	queryParams.category = req.query.category || '-1';
+	queryParams.location = req.query.location || '-1';
 
-	const totalPages = Math.ceil(orgInfo.length / limit)
-	page = Math.min(Math.max(page, 1), totalPages)
-	const startIndex = (page - 1) * limit
-	const endIndex = page * limit
+	orgInfo = orgInfo.filter((info) =>
+		info.name.toLowerCase().includes(queryParams.search.toLowerCase())
+	);
+	if (queryParams.type != '-1') orgInfo = orgInfo.filter((info) => info.type == queryParams.type);
+	if (queryParams.subtype != '-1')
+		orgInfo = orgInfo.filter((info) => info.subtype == queryParams.subtype);
+	if (queryParams.category != '-1')
+		orgInfo = orgInfo.filter((info) => info.category == queryParams.category);
+	if (queryParams.location != '-1')
+		orgInfo = orgInfo.filter((info) => info.location == queryParams.location);
 
-	const orgsOnPage = orgInfo.slice(startIndex, endIndex)
+	const totalPages = Math.ceil(orgInfo.length / limit);
+	page = Math.min(Math.max(page, 1), totalPages);
+	const startIndex = (page - 1) * limit;
+	const endIndex = page * limit;
 
-	res.render('extendedSearch', { 
-		role: 'пользователь' ,
-		orgsOnPage, 
-		locations: enums.locations, 
-		types: enums.types, 
-		subtypes: enums.subtypes, 
+	const orgsOnPage = orgInfo.slice(startIndex, endIndex);
+
+	res.render('extendedSearch', {
+		role: 'пользователь',
+		orgsOnPage,
+		locations: enums.locations,
+		types: enums.types,
+		subtypes: enums.subtypes,
 		categories: enums.categories,
 		page,
-		totalPages, 
-		queryParams
-	})
-})
+		totalPages,
+		queryParams,
+	});
+});
 
 router.get('/organization-page', async (req, res) => {
 	const db = getDB();
@@ -108,11 +129,11 @@ router.get('/organization-page', async (req, res) => {
 	info.id = id;
 	res.render('organizationPage', {
 		info,
-		locations: enums.locations, 
-		types: enums.types, 
-		subtypes: enums.subtypes, 
+		locations: enums.locations,
+		types: enums.types,
+		subtypes: enums.subtypes,
 		categories: enums.categories,
 	});
-})
+});
 
-export default router
+export default router;
