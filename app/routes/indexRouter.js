@@ -22,24 +22,30 @@ router.get('/search-by-name', async (req, res) => {
 	const db = getDB()
 
 	const ids = await db.getArray('ids')
+	const short_names = await Promise.all(ids.map((id) => db.get(`short_name:${id}`)));
+	const addresses = await Promise.all(ids.map((id) => db.get(`address:${id}`)));
+	const names = await Promise.all(ids.map((id) => db.get(`name:${id}`)));
+	const types = await Promise.all(ids.map((id) => db.get(`type:${id}`)));
+	let orgInfo = [];
+	ids.forEach((id, index) => {
+		orgInfo.push({id, name: names[index], type_name: enums.types[+types[index]], address: addresses[index], short_name: short_names[index]})
+	});
 
 	const limit = 3
 	let page = parseInt(req.query.page) || 1
 
-	const names = await Promise.all(ids.map((id) => db.get(`name:${id}`)))
-
 	const searchQuery = req.query.search || ''
 
-	const filteredNames = names.filter((name) => name.toLowerCase().includes(searchQuery.toLowerCase()))
+	orgInfo = orgInfo.filter((info) => info.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
-	const totalPages = Math.ceil(filteredNames.length / limit)
+	const totalPages = Math.ceil(orgInfo.length / limit)
 	page = Math.min(Math.max(page, 1), totalPages)
 	const startIndex = (page - 1) * limit
 	const endIndex = page * limit
 
-	const namesOnPage = filteredNames.slice(startIndex, endIndex)
+	const orgsOnPage = orgInfo.slice(startIndex, endIndex)
 
-	res.render('search', { role: 'пользователь', names: namesOnPage, page, totalPages, searchQuery })
+	res.render('search', { role: 'пользователь', orgsOnPage, page, totalPages, searchQuery })
 })
 
 router.get('/extended-search', async (req, res) => {

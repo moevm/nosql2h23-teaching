@@ -20,8 +20,11 @@ html(lang="en")
                 input(class="search-input" type="text" name="search" placeholder="Введите название организации" value=`${searchQuery}`)
                 button(class="search-btn" type="submit") Поиск
         ul(class="list")
-            each name in names
-                li #{name}
+            each org in orgsOnPage
+                li
+                    a(href=`/organization-page?id=${org.id}`) #{org.short_name}
+                    p <b>Адрес</b>: #{org.address}
+                    p <b>Тип:</b> #{org.type_name}
         br
         div(class="page")
             a(href=`/search-by-name?page=1&search=${searchQuery}`) <<
