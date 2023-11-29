@@ -5,10 +5,9 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Document
         link(rel='stylesheet', href='/public/style.css')
+        script(src="https://kit.fontawesome.com/ac0925c6df.js" crossorigin="anonymous")
     body 
-        div(class="roles")
-            p Роль: #{role}
-            button Администрирование
+        include includes/auth.pug
         div(class="main-menu")
             h1 Образовательные организации Санкт-Петербурга
             div(class="menu-links")
@@ -66,8 +65,8 @@ html(lang="en")
                         p <b>Тип:</b> #{org.type_name}
         br
         .pagination
-            a(disabled=(page===1) href=`/extended-search?page=1&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <<
-            a(disabled=(page===1) href=`/extended-search?page=${page-1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <
+            a(disabled=(page===1) href=`/extended-search?page=1&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angles-left"></i>
+            a(disabled=(page===1) href=`/extended-search?page=${page-1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angle-left"></i>
             p Номер страницы: #{page}
-            a(disabled=(page===totalPages) href=`/extended-search?page=${page+1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) >
-            a(disabled=(page===totalPages) href=`/extended-search?page=${totalPages}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) >>
+            a(disabled=(page===totalPages) href=`/extended-search?page=${page+1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angle-right"></i>
+            a(disabled=(page===totalPages) href=`/extended-search?page=${totalPages}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angles-right"></i>

@@ -1,0 +1,19 @@
+script(src="/public/dialog.js") 
+#overlay.overlay(onclick="closeDialog()")
+#admin-dialog.dialog
+    i.close(class="fa-solid fa-xmark", onclick="closeDialog()")
+    form#auth-form
+        p#auth-err Error
+        .field
+            label(for="name-inp") Логин
+            input(id="name-inp" type="text" name="name" placeholder="Логин")
+        .field
+            label(for="password-inp") Пароль
+            input(id="password-inp" type="password" name="password" placeholder="Пароль")
+        button(onclick="authorize(event)") Авторизоваться
+div(class="roles")
+    p Роль: #{role}
+    if role === 'Админ'
+        button(onclick="logout()") Выйти
+    else
+        button(onclick="openDialog()") Администрирование

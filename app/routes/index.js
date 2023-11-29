@@ -1,10 +1,11 @@
 import express from 'express';
 import { getDB } from '../db/memcached.js';
 import { enums } from '../db/enums_db.js';
+import { auth } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
 	const db = getDB();
 	// await db.set('key1', 'value1123')
 	// console.log(await db.get('key1'))
@@ -15,10 +16,10 @@ router.get('/', async (req, res) => {
 	// await db.appendArray('arr', 12)
 	// console.log(await db.getArray('arr'))
 
-	res.render('index', { role: 'пользователь' });
+	res.render('index', { role: req.admin ? 'Админ' : 'Пользователь' });
 });
 
-router.get('/search-by-name', async (req, res) => {
+router.get('/search-by-name', auth, async (req, res) => {
 	const db = getDB();
 
 	const ids = await db.getArray('ids');
@@ -51,10 +52,16 @@ router.get('/search-by-name', async (req, res) => {
 
 	const orgsOnPage = orgInfo.slice(startIndex, endIndex);
 
-	res.render('search', { role: 'пользователь', orgsOnPage, page, totalPages, searchQuery });
+	res.render('search', {
+		role: req.admin ? 'Админ' : 'Пользователь',
+		orgsOnPage,
+		page,
+		totalPages,
+		searchQuery,
+	});
 });
 
-router.get('/extended-search', async (req, res) => {
+router.get('/extended-search', auth, async (req, res) => {
 	const db = getDB();
 	const ids = await db.getArray('ids');
 
@@ -110,7 +117,7 @@ router.get('/extended-search', async (req, res) => {
 	const orgsOnPage = orgInfo.slice(startIndex, endIndex);
 
 	res.render('extendedSearch', {
-		role: 'пользователь',
+		role: req.admin ? 'Админ' : 'Пользователь',
 		orgsOnPage,
 		locations: enums.locations,
 		types: enums.types,
@@ -122,12 +129,13 @@ router.get('/extended-search', async (req, res) => {
 	});
 });
 
-router.get('/organization-page', async (req, res) => {
+router.get('/organization-page', auth, async (req, res) => {
 	const db = getDB();
 	const id = req.query.id;
 	let info = await db.getOrganization(id);
 	info.id = id;
 	res.render('organizationPage', {
+		role: req.admin ? 'Админ' : 'Пользователь',
 		info,
 		locations: enums.locations,
 		types: enums.types,

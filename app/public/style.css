@@ -256,4 +256,99 @@ h1 {
   margin-bottom: 6px;
 }
 
+.overlay, .dialog {
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 200ms ease-in;
+}
+
+.overlay[open], .dialog[open] {
+  visibility: visible;
+  opacity: 1;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 99;
+}
+
+#admin-dialog {
+  width: 800px;
+  height: 350px;
+  background: #61B7CF;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 40px;
+  border: 3px solid #216477;
+  border-radius: 20px;
+  z-index: 100;
+}
+#admin-dialog .close {
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+  transition: all 200ms ease;
+  color: #216477;
+}
+#admin-dialog .close:hover {
+  color: #1f454f;
+}
+#admin-dialog #auth-err {
+  opacity: 0;
+  color: darkred;
+  font-size: 0.8rem;
+}
+#admin-dialog #auth-err[open] {
+  opacity: 1;
+}
+#admin-dialog #auth-form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding: 40px;
+  margin: auto;
+}
+#admin-dialog #auth-form .field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+#admin-dialog #auth-form .field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+#admin-dialog #auth-form .field input {
+  width: 100%;
+  padding: 8px 15px 8px;
+  border: none;
+  border-radius: 15px;
+  margin-right: -40px;
+  font-size: 1.1rem;
+}
+#admin-dialog #auth-form button {
+  padding: 8px;
+  margin: 25px auto 0;
+  width: 300px;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  border-radius: 15px;
+  color: white;
+  background-color: #5e5e5e;
+  transition: all 200ms ease;
+}
+#admin-dialog #auth-form button:hover {
+  background-color: #484848;
+}
+
 /*# sourceMappingURL=style.css.map */
