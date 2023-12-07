@@ -16,3 +16,62 @@ html(lang="en")
                 a(href="/extended-search" class="other-a") Расширенный поиск 
                 if admin
                     a(href="/add-organization" class="current-a") Добавить организацию +
+        div 
+            p #{msg}
+            form(action="/add" method="get")
+                .field
+                    label(for="select_type") Тип организации
+                    select(id="select_type" name="type")
+                        each type, index in types 
+                            option(value=index) #{type} 
+                .field
+                    label(for="select_subtype") Подтип организации
+                    select(id="select_subtype" name="subtype")
+                        each subtype, index in subtypes
+                            option(value=index) #{subtype} 
+                .field
+                    label(for="select_category") Вид организации
+                    select(id="select_category" name="category")
+                        each category, index in categories
+                            option(value=index) #{category} 
+                .field
+                    label(for="select_location") Район
+                    select(id="select_location" name="location")
+                        each location, index in locations
+                            option(value=index) #{location}
+                .field
+                    label(for="select_e_diary") Статус сервиса "Электронный дневник"
+                    select(id="select_e_diary" name="e_diary")
+                        option(value="0") Отсутствует
+                        option(value="1") Включен
+                .field
+                    label(for="name") Название организации
+                    input(id="name" class="search-input" type="text" name="name" placeholder="Название организации")
+                .field
+                    label(for="short_name") Короткое наименование
+                    input(id="short_name" class="search-input" type="text" name="short_name" placeholder="Короткое наименование")
+                .field
+                    label(for="address") Адрес
+                    input(id="address" class="search-input" type="text" name="address" placeholder="Адрес")
+                .field
+                    label(for="fias") Код здания ФИАС
+                    input(id="fias" class="search-input" type="text" name="fias" placeholder="Код здания ФИАС")
+                .field
+                    label(for="mngr_pos") Должность руководителя
+                    input(id="mngr_pos" class="search-input" type="text" name="mngr_pos" placeholder="Должность руководителя")
+                .field
+                    label(for="mngr_name") ФИО руководител
+                    input(id="mngr_name" class="search-input" type="text" name="mngr_name" placeholder="ФИО руководител")
+                .field
+                    label(for="tel") Телефон
+                    input(id="tel" class="search-input" type="text" name="tel" placeholder="Телефон")
+                .field
+                    label(for="id") ОГРН организации
+                    input(id="id" class="search-input" type="text" name="id" placeholder="ОГРН организации")
+                .field
+                    label(for="website") Адрес сайта в сети Интернет
+                    input(id="website" class="search-input" type="text" name="website" placeholder="Адрес сайта в сети Интернет")
+                .field
+                    label(for="email") Адрес электронной почты
+                    input(id="email" class="search-input" type="text" name="email" placeholder="Адрес электронной почты")
+                button(class="search-btn" type="submit") Добавить

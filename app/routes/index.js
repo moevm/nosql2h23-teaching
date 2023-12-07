@@ -97,10 +97,10 @@ router.get('/extended-search', auth, async (req, res) => {
 	queryParams.subtype = req.query.subtype || '-1';
 	queryParams.category = req.query.category || '-1';
 	queryParams.location = req.query.location || '-1';
-
-	orgInfo = orgInfo.filter((info) =>
-		info.name.toLowerCase().includes(queryParams.search.toLowerCase())
-	);
+	
+	orgInfo = orgInfo.filter((info) => {
+		info.name.toLowerCase().includes(queryParams.search.toLowerCase());
+	});
 	if (queryParams.type != '-1') orgInfo = orgInfo.filter((info) => info.type == queryParams.type);
 	if (queryParams.subtype != '-1')
 		orgInfo = orgInfo.filter((info) => info.subtype == queryParams.subtype);
@@ -145,7 +145,46 @@ router.get('/organization-page', auth, async (req, res) => {
 });
 
 router.get('/add-organization', auth, async (req, res) => {
-	res.render('addOrganization', { admin: req.admin});
+	res.render('addOrganization', { 
+		msg: "",
+		admin: req.admin,
+		locations: enums.locations,
+		types: enums.types,
+		subtypes: enums.subtypes,
+		categories: enums.categories,
+	});
+});
+
+router.get('/add', auth, async (req, res) => {
+	const db = getDB();
+	let ids = await db.getArray('ids');
+	if (ids.includes(req.query.id) || req.query.id == ""){
+		return res.render('addOrganization', { 
+			msg: "ОШИБКА: Организация с введённым ОГРН уже существует / не введён ОГРН",
+			admin: req.admin,
+			locations: enums.locations,
+			types: enums.types,
+			subtypes: enums.subtypes,
+			categories: enums.categories,
+		});
+	}
+	req.query.ogrn = req.query.id;
+	await db.setOrganization(req.query);
+	await db.appendArray("ids", req.query.id);
+	await db.appendArray(`org_type:${req.query.type}`, req.query.id);
+	await db.appendArray(`org_sub_type:${req.query.subtype}`, req.query.id);
+	await db.appendArray(`org_category:${req.query.category}`, req.query.id);
+	await db.appendArray(`org_location:${req.query.location}`, req.query.id);
+	let info = await db.getOrganization(req.query.id);
+	info.id = req.query.id;
+	res.render('organizationPage', {
+		admin: req.admin,
+		info,
+		locations: enums.locations,
+		types: enums.types,
+		subtypes: enums.subtypes,
+		categories: enums.categories,
+	});
 });
 
 export default router;

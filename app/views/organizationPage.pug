@@ -34,7 +34,7 @@ html(lang="en")
             p <b>Район:</b> #{locations[+info.location]}
             p <b>ОГРН организации:</b> #{info.id}
             p <b>Статус сервиса "Электронный дневник":</b>
-                if info.ediary
+                if info.e_diary == "1"
                     span Включен
                 else 
                     span Отсутствует
