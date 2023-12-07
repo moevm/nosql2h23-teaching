@@ -12,8 +12,8 @@ script(src="/public/dialog.js")
             input(id="password-inp" type="password" name="password" placeholder="Пароль")
         button(onclick="authorize(event)") Авторизоваться
 div(class="roles")
-    p Роль: #{role}
-    if role === 'Админ'
+    p Роль: #{admin ? "Администратор" : "Пользователь"}
+    if admin
         button(onclick="logout()") Выйти
     else
         button(onclick="openDialog()") Администрирование

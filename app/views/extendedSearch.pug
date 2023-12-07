@@ -14,6 +14,8 @@ html(lang="en")
                 a(href="/" class="other-a") Общая статистика
                 a(href="/search-by-name" class="other-a") Поиск по названию
                 a(class="current-a") Расширенный поиск
+                if admin
+                    a(href="/add-organization" class="other-a") Добавить организацию +
         div(class="filters")
             form(action="/extended-search" method="get")
                 .field

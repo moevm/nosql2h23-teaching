@@ -16,7 +16,7 @@ router.get('/', auth, async (req, res) => {
 	// await db.appendArray('arr', 12)
 	// console.log(await db.getArray('arr'))
 
-	res.render('index', { role: req.admin ? 'Админ' : 'Пользователь' });
+	res.render('index', { admin: req.admin});
 });
 
 router.get('/search-by-name', auth, async (req, res) => {
@@ -53,7 +53,7 @@ router.get('/search-by-name', auth, async (req, res) => {
 	const orgsOnPage = orgInfo.slice(startIndex, endIndex);
 
 	res.render('search', {
-		role: req.admin ? 'Админ' : 'Пользователь',
+		admin: req.admin,
 		orgsOnPage,
 		page,
 		totalPages,
@@ -117,7 +117,7 @@ router.get('/extended-search', auth, async (req, res) => {
 	const orgsOnPage = orgInfo.slice(startIndex, endIndex);
 
 	res.render('extendedSearch', {
-		role: req.admin ? 'Админ' : 'Пользователь',
+		admin: req.admin,
 		orgsOnPage,
 		locations: enums.locations,
 		types: enums.types,
@@ -135,13 +135,17 @@ router.get('/organization-page', auth, async (req, res) => {
 	let info = await db.getOrganization(id);
 	info.id = id;
 	res.render('organizationPage', {
-		role: req.admin ? 'Админ' : 'Пользователь',
+		admin: req.admin,
 		info,
 		locations: enums.locations,
 		types: enums.types,
 		subtypes: enums.subtypes,
 		categories: enums.categories,
 	});
+});
+
+router.get('/add-organization', auth, async (req, res) => {
+	res.render('addOrganization', { admin: req.admin});
 });
 
 export default router;
