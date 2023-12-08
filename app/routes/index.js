@@ -1,6 +1,8 @@
 import express from 'express';
 import { getDB } from '../db/memcached.js';
 import { enums } from '../db/enums_db.js';
+import { importData } from '../db/import.js';
+import { exportData } from '../db/export.js';
 import { auth } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -16,7 +18,7 @@ router.get('/', auth, async (req, res) => {
 	// await db.appendArray('arr', 12)
 	// console.log(await db.getArray('arr'))
 
-	res.render('index', { admin: req.admin});
+	res.render('index', { admin: req.admin });
 });
 
 router.get('/search-by-name', auth, async (req, res) => {
@@ -34,7 +36,7 @@ router.get('/search-by-name', auth, async (req, res) => {
 			name: names[index],
 			type_name: enums.types[+types[index]],
 			address: addresses[index],
-			short_name: short_names[index],
+			short_name: short_names[index]
 		});
 	});
 
@@ -57,7 +59,7 @@ router.get('/search-by-name', auth, async (req, res) => {
 		orgsOnPage,
 		page,
 		totalPages,
-		searchQuery,
+		searchQuery
 	});
 });
 
@@ -87,7 +89,7 @@ router.get('/extended-search', auth, async (req, res) => {
 			type: types[index],
 			subtype: subtypes[index],
 			category: categories[index],
-			location: locations[index],
+			location: locations[index]
 		});
 	});
 
@@ -97,17 +99,14 @@ router.get('/extended-search', auth, async (req, res) => {
 	queryParams.subtype = req.query.subtype || '-1';
 	queryParams.category = req.query.category || '-1';
 	queryParams.location = req.query.location || '-1';
-	
+
 	orgInfo = orgInfo.filter((info) => {
 		info.name.toLowerCase().includes(queryParams.search.toLowerCase());
 	});
 	if (queryParams.type != '-1') orgInfo = orgInfo.filter((info) => info.type == queryParams.type);
-	if (queryParams.subtype != '-1')
-		orgInfo = orgInfo.filter((info) => info.subtype == queryParams.subtype);
-	if (queryParams.category != '-1')
-		orgInfo = orgInfo.filter((info) => info.category == queryParams.category);
-	if (queryParams.location != '-1')
-		orgInfo = orgInfo.filter((info) => info.location == queryParams.location);
+	if (queryParams.subtype != '-1') orgInfo = orgInfo.filter((info) => info.subtype == queryParams.subtype);
+	if (queryParams.category != '-1') orgInfo = orgInfo.filter((info) => info.category == queryParams.category);
+	if (queryParams.location != '-1') orgInfo = orgInfo.filter((info) => info.location == queryParams.location);
 
 	const totalPages = Math.ceil(orgInfo.length / limit);
 	page = Math.min(Math.max(page, 1), totalPages);
@@ -125,7 +124,7 @@ router.get('/extended-search', auth, async (req, res) => {
 		categories: enums.categories,
 		page,
 		totalPages,
-		queryParams,
+		queryParams
 	});
 });
 
@@ -140,37 +139,37 @@ router.get('/organization-page', auth, async (req, res) => {
 		locations: enums.locations,
 		types: enums.types,
 		subtypes: enums.subtypes,
-		categories: enums.categories,
+		categories: enums.categories
 	});
 });
 
 router.get('/add-organization', auth, async (req, res) => {
-	res.render('addOrganization', { 
-		msg: "",
+	res.render('addOrganization', {
+		msg: '',
 		admin: req.admin,
 		locations: enums.locations,
 		types: enums.types,
 		subtypes: enums.subtypes,
-		categories: enums.categories,
+		categories: enums.categories
 	});
 });
 
 router.get('/add', auth, async (req, res) => {
 	const db = getDB();
 	let ids = await db.getArray('ids');
-	if (ids.includes(req.query.id) || req.query.id == ""){
-		return res.render('addOrganization', { 
-			msg: "ОШИБКА: Организация с введённым ОГРН уже существует / не введён ОГРН",
+	if (ids.includes(req.query.id) || req.query.id == '') {
+		return res.render('addOrganization', {
+			msg: 'ОШИБКА: Организация с введённым ОГРН уже существует / не введён ОГРН',
 			admin: req.admin,
 			locations: enums.locations,
 			types: enums.types,
 			subtypes: enums.subtypes,
-			categories: enums.categories,
+			categories: enums.categories
 		});
 	}
 	req.query.ogrn = req.query.id;
 	await db.setOrganization(req.query);
-	await db.appendArray("ids", req.query.id);
+	await db.appendArray('ids', req.query.id);
 	await db.appendArray(`org_type:${req.query.type}`, req.query.id);
 	await db.appendArray(`org_sub_type:${req.query.subtype}`, req.query.id);
 	await db.appendArray(`org_category:${req.query.category}`, req.query.id);
@@ -183,8 +182,29 @@ router.get('/add', auth, async (req, res) => {
 		locations: enums.locations,
 		types: enums.types,
 		subtypes: enums.subtypes,
-		categories: enums.categories,
+		categories: enums.categories
 	});
+});
+
+router.post('/import', auth, async (req, res) => {
+	try {
+		const { fileContent } = req.body;
+		await importData(fileContent);
+		res.status(200).json({ message: 'Import successful' });
+	} catch (error) {
+		console.error('Import error:', error);
+		res.status(500).json({ error: 'Import failed' });
+	}
+});
+
+router.get('/export', auth, async (req, res) => {
+	try {
+		const exportedData = await exportData();
+		res.status(200).json({ data: exportedData });
+	} catch (error) {
+		console.error('Export error:', error);
+		res.status(500).json({ error: 'Export failed' });
+	}
 });
 
 export default router;
