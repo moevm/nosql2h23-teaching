@@ -11,6 +11,9 @@ script(src="/public/dialog.js")
             label(for="password-inp") Пароль
             input(id="password-inp" type="password" name="password" placeholder="Пароль")
         button(onclick="authorize(event)") Авторизоваться
+div(class="import-export-btns")
+    button(onclick="") Import
+    button(onclick="") Export
 div(class="roles")
     p Роль: #{admin ? "Администратор" : "Пользователь"}
     if admin

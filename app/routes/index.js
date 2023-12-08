@@ -1,8 +1,7 @@
 import express from 'express';
 import { getDB } from '../db/memcached.js';
 import { enums } from '../db/enums_db.js';
-import { importData } from '../db/import.js';
-import { exportData } from '../db/export.js';
+import { importData, exportData } from '../db/importExportData.js';
 import { auth } from '../middleware/auth.js';
 
 const router = express.Router();
