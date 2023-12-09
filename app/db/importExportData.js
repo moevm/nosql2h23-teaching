@@ -1,9 +1,8 @@
 import { enumLengths } from './enums_db.js';
 
-export const importData = async (fileContent, db) => {
+export const importData = async (data, db) => {
 	try {
 		const globalStartTime = new Date();
-		const data = JSON.parse(fileContent);
 
 		for (const [i, org] of data.organizations.entries()) {
 			db.setOrganization(org);
@@ -74,10 +73,10 @@ export const exportData = async (db) => {
 			orgType,
 			orgSubtype,
 			orgCategory,
-			orgLocation
+			orgLocation,
 		};
 
-		return JSON.stringify(exported, null, 4);
+		return exported;
 	} finally {
 		const globalEndTime = new Date();
 		console.log(`Data exported - ${(globalEndTime - globalStartTime) / 1000}s`);

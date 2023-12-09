@@ -16,9 +16,8 @@ const db = dbConnect(`${process.env.MADDR}:${process.env.MPORT}`);
 console.log(`Starting export to file '${filePath}'`);
 
 exportData(db)
-	.then((dataString) => {
-		console.log(dataString);
-		fs.writeFile(filePath, dataString, (err) => {});
+	.then((data) => {
+		fs.writeFile(filePath, JSON.stringify(data, null, 4), (err) => {});
 	})
 	.catch((error) => {
 		console.error('Error exporting data:', error);

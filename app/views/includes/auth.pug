@@ -1,4 +1,5 @@
-script(src="/public/dialog.js") 
+script(src="/public/scripts/dialog.js") 
+script(src="/public/scripts/db.js") 
 #overlay.overlay(onclick="closeDialog()")
 #admin-dialog.dialog
     i.close(class="fa-solid fa-xmark", onclick="closeDialog()")
@@ -12,8 +13,9 @@ script(src="/public/dialog.js")
             input(id="password-inp" type="password" name="password" placeholder="Пароль")
         button(onclick="authorize(event)") Авторизоваться
 div(class="import-export-btns")
-    button(onclick="") Import
-    button(onclick="") Export
+    input#file(type="file" style="visibility:hidden" accept=".json" onchange='onFileChange(event)')
+    button(onclick="document.getElementById('file').click()") Import
+    button(onclick="exportData()") Export
 div(class="roles")
     p Роль: #{admin ? "Администратор" : "Пользователь"}
     if admin

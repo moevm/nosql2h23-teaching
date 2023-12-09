@@ -19,7 +19,8 @@ console.log(`Starting import from file '${filePath}'`);
 
 fs.readFile(filePath, async (err, content) => {
 	try {
-		await importData(content, db);
+		const data = JSON.parse(content);
+		await importData(data, db);
 	} finally {
 		db.close();
 	}

@@ -35,7 +35,7 @@ router.get('/search-by-name', auth, async (req, res) => {
 			name: names[index],
 			type_name: enums.types[+types[index]],
 			address: addresses[index],
-			short_name: short_names[index]
+			short_name: short_names[index],
 		});
 	});
 
@@ -58,7 +58,7 @@ router.get('/search-by-name', auth, async (req, res) => {
 		orgsOnPage,
 		page,
 		totalPages,
-		searchQuery
+		searchQuery,
 	});
 });
 
@@ -88,7 +88,7 @@ router.get('/extended-search', auth, async (req, res) => {
 			type: types[index],
 			subtype: subtypes[index],
 			category: categories[index],
-			location: locations[index]
+			location: locations[index],
 		});
 	});
 
@@ -103,9 +103,12 @@ router.get('/extended-search', auth, async (req, res) => {
 		info.name.toLowerCase().includes(queryParams.search.toLowerCase());
 	});
 	if (queryParams.type != '-1') orgInfo = orgInfo.filter((info) => info.type == queryParams.type);
-	if (queryParams.subtype != '-1') orgInfo = orgInfo.filter((info) => info.subtype == queryParams.subtype);
-	if (queryParams.category != '-1') orgInfo = orgInfo.filter((info) => info.category == queryParams.category);
-	if (queryParams.location != '-1') orgInfo = orgInfo.filter((info) => info.location == queryParams.location);
+	if (queryParams.subtype != '-1')
+		orgInfo = orgInfo.filter((info) => info.subtype == queryParams.subtype);
+	if (queryParams.category != '-1')
+		orgInfo = orgInfo.filter((info) => info.category == queryParams.category);
+	if (queryParams.location != '-1')
+		orgInfo = orgInfo.filter((info) => info.location == queryParams.location);
 
 	const totalPages = Math.ceil(orgInfo.length / limit);
 	page = Math.min(Math.max(page, 1), totalPages);
@@ -123,7 +126,7 @@ router.get('/extended-search', auth, async (req, res) => {
 		categories: enums.categories,
 		page,
 		totalPages,
-		queryParams
+		queryParams,
 	});
 });
 
@@ -138,7 +141,7 @@ router.get('/organization-page', auth, async (req, res) => {
 		locations: enums.locations,
 		types: enums.types,
 		subtypes: enums.subtypes,
-		categories: enums.categories
+		categories: enums.categories,
 	});
 });
 
@@ -149,7 +152,7 @@ router.get('/add-organization', auth, async (req, res) => {
 		locations: enums.locations,
 		types: enums.types,
 		subtypes: enums.subtypes,
-		categories: enums.categories
+		categories: enums.categories,
 	});
 });
 
@@ -163,7 +166,7 @@ router.get('/add', auth, async (req, res) => {
 			locations: enums.locations,
 			types: enums.types,
 			subtypes: enums.subtypes,
-			categories: enums.categories
+			categories: enums.categories,
 		});
 	}
 	req.query.ogrn = req.query.id;
@@ -181,14 +184,15 @@ router.get('/add', auth, async (req, res) => {
 		locations: enums.locations,
 		types: enums.types,
 		subtypes: enums.subtypes,
-		categories: enums.categories
+		categories: enums.categories,
 	});
 });
 
 router.post('/import', auth, async (req, res) => {
 	try {
-		const { fileContent } = req.body;
-		await importData(fileContent);
+		const db = getDB();
+		const { data } = req.body;
+		await importData(data, db);
 		res.status(200).json({ message: 'Import successful' });
 	} catch (error) {
 		console.error('Import error:', error);
@@ -198,7 +202,8 @@ router.post('/import', auth, async (req, res) => {
 
 router.get('/export', auth, async (req, res) => {
 	try {
-		const exportedData = await exportData();
+		const db = getDB();
+		const exportedData = await exportData(db);
 		res.status(200).json({ data: exportedData });
 	} catch (error) {
 		console.error('Export error:', error);
