@@ -19,44 +19,9 @@ a {
   padding: 10px;
   border-radius: 15px;
 }
-a.other-a {
-  background-color: #216477;
-  color: white;
-}
-a.other-a:hover {
-  background-color: #1f454f;
-}
-a.current-a {
-  background-color: #b3d6e0;
-  color: black;
-}
 a[disabled] {
   pointer-events: none;
   opacity: 0;
-}
-
-.roles {
-  display: flex;
-  justify-content: right;
-  gap: 20px;
-  align-items: center;
-  padding-bottom: 20px;
-}
-.roles p {
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-.roles button {
-  border: none;
-  background-color: #216477;
-  color: white;
-  border-radius: 12px;
-  font-size: 1rem;
-  padding: 10px 12px;
-  transition: all 200ms ease;
-}
-.roles button:hover {
-  background-color: #1f454f;
 }
 
 h1 {
@@ -80,6 +45,26 @@ h1 {
   gap: 20px;
   padding: 20px;
   justify-content: center;
+}
+.menu-links a {
+  transition: all 200ms ease;
+}
+.menu-links a.other-a {
+  background-color: #216477;
+  color: white;
+}
+.menu-links a.other-a:hover {
+  background-color: #1f454f;
+}
+.menu-links a.current-a {
+  background-color: #b3d6e0;
+  color: black;
+}
+.menu-links a[current] {
+  pointer-events: none;
+}
+.menu-links a i {
+  margin-left: 4px;
 }
 
 /* width */
@@ -188,54 +173,6 @@ h1 {
   transition: all 200ms ease;
 }
 .search button:hover {
-  background-color: #484848;
-}
-
-.filters {
-  width: 100%;
-  margin: 28px 0;
-  background-color: #39AECF;
-  padding: 15px 35px 10px;
-  border-radius: 20px;
-}
-.filters form {
-  margin: 20px auto;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-}
-.filters form .field {
-  width: 100%;
-}
-.filters form .field label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 6px;
-}
-.filters form .field input, .filters form .field select {
-  width: 100%;
-  padding: 8px 15px 8px;
-  border: none;
-  border-radius: 15px;
-  margin-right: -40px;
-  font-size: 1.1rem;
-}
-.filters form button {
-  padding: 8px;
-  margin-top: 15px;
-  width: 300px;
-  border: none;
-  font-size: 1.2rem;
-  font-weight: 500;
-  border-radius: 15px;
-  color: white;
-  background-color: #5e5e5e;
-  transition: all 200ms ease;
-}
-.filters form button:hover {
   background-color: #484848;
 }
 
@@ -349,6 +286,93 @@ h1 {
 }
 #admin-dialog #auth-form button:hover {
   background-color: #484848;
+}
+
+.form-container {
+  width: 100%;
+  margin: 28px 0;
+  background-color: #39AECF;
+  padding: 15px 35px 10px;
+  border-radius: 20px;
+}
+
+.form {
+  margin: 20px auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+.form .field {
+  width: 100%;
+}
+.form .field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.form .field input, .form .field select {
+  width: 100%;
+  padding: 8px 15px 8px;
+  border: none;
+  border-radius: 15px;
+  margin-right: -40px;
+  font-size: 1.1rem;
+}
+.form button {
+  padding: 8px;
+  margin-top: 15px;
+  width: 300px;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  border-radius: 15px;
+  color: white;
+  background-color: #5e5e5e;
+  transition: all 200ms ease;
+}
+.form button:hover {
+  background-color: #484848;
+}
+
+.err {
+  color: darkred;
+  margin: 10px 0;
+}
+
+.roles {
+  display: flex;
+  justify-content: right;
+  gap: 20px;
+  align-items: center;
+  padding-bottom: 20px;
+}
+.roles p {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.roles button {
+  border: none;
+  background-color: #216477;
+  color: white;
+  border-radius: 12px;
+  font-size: 1rem;
+  padding: 10px 12px;
+  transition: all 200ms ease;
+}
+.roles button:hover {
+  background-color: #1f454f;
+}
+.roles #file {
+  width: 0;
+}
+.roles .import-export-btns {
+  margin-right: auto;
+}
+.roles .import-export-btns button {
+  margin-right: 10px;
 }
 
 /*# sourceMappingURL=style.css.map */

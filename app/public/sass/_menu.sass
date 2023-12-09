@@ -1,0 +1,33 @@
+h1
+    background-color: $title-color
+    color: white
+    padding: 20px
+    vertical-align: middle
+    border-radius: 20px
+
+.main-menu
+    display: block
+    background-color: $secondary-background-color
+    text-align: center
+    align-items: center
+    border-radius: 20px
+
+.menu-links
+    display: flex
+    gap: 20px
+    padding: 20px
+    justify-content: center
+    a
+        transition: all 200ms ease
+        &.other-a
+            background-color: $dark-color
+            color: white
+            &:hover
+                background-color: $dark-color-hover
+        &.current-a
+            background-color: $current-menu-link-color
+            color: black
+        &[current]
+            pointer-events: none
+        i
+            margin-left: 4px

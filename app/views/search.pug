@@ -3,19 +3,14 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
+        title Образовательные организации Санкт-Петербурга
         link(rel='stylesheet', href='/public/style.css')
         script(src="https://kit.fontawesome.com/ac0925c6df.js" crossorigin="anonymous")
     body 
         include includes/auth.pug
-        div(class="main-menu")
-            h1 Образовательные организации Санкт-Петербурга
-            div(class="menu-links")
-                a(href="/" class="other-a") Общая статистика
-                a(class="current-a") Поиск по названию
-                a(href="/extended-search" class="other-a") Расширенный поиск 
-                if admin
-                    a(href="/add-organization" class="other-a") Добавить организацию +
+        include includes/menu.pug
+        +menu(2)
+        
         div(class="search")
             form(action="/search-by-name" method="get")
                 input(class="search-input" type="text" name="search" placeholder="Введите название организации" value=`${searchQuery}`)
@@ -29,9 +24,10 @@ html(lang="en")
                         p <b>Тип:</b> #{org.type_name}
         br
         .pagination
-            a(disabled=(page===1) href=`/search-by-name?page=1&search=${searchQuery}`) <i class="fa-solid fa-angles-left"></i>
-            a(disabled=(page===1) href=`/search-by-name?page=${page-1}&search=${searchQuery}`) <i class="fa-solid fa-angle-left"></i>
-            p Номер страницы: #{page}
+            a(disabled=(page<=1) href=`/search-by-name?page=1&search=${searchQuery}`) <i class="fa-solid fa-angles-left"></i>
+            a(disabled=(page<=1) href=`/search-by-name?page=${page-1}&search=${searchQuery}`) <i class="fa-solid fa-angle-left"></i>
+            if totalPages > 1
+                p Номер страницы: #{page}
             a(disabled=(page===totalPages) href=`/search-by-name?page=${page+1}&search=${searchQuery}`) <i class="fa-solid fa-angle-right"></i>
             a(disabled=(page===totalPages) href=`/search-by-name?page=${totalPages}&search=${searchQuery}`) <i class="fa-solid fa-angles-right"></i>
             

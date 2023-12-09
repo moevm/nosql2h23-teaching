@@ -3,22 +3,17 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
+        title Образовательные организации Санкт-Петербурга
         link(rel='stylesheet', href='/public/style.css')
         script(src="https://kit.fontawesome.com/ac0925c6df.js" crossorigin="anonymous")
     body 
         include includes/auth.pug
-        div(class="main-menu")
-            h1 Образовательные организации Санкт-Петербурга
-            div(class="menu-links")
-                a(class="other-a") Общая статистика
-                a(href="/search-by-name" class="other-a") Поиск по названию
-                a(href="/extended-search" class="other-a") Расширенный поиск 
-                if admin
-                    a(href="/add-organization" class="current-a") Добавить организацию +
-        div 
-            p #{msg}
-            form(action="/add" method="get")
+        include includes/menu.pug
+        +menu(4)
+        
+        .form-container
+            p.err #{msg}
+            form.form(action="/add" method="get")
                 .field
                     label(for="select_type") Тип организации
                     select(id="select_type" name="type")

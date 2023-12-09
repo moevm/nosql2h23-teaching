@@ -3,21 +3,16 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
+        title Образовательные организации Санкт-Петербурга
         link(rel='stylesheet', href='/public/style.css')
         script(src="https://kit.fontawesome.com/ac0925c6df.js" crossorigin="anonymous")
     body 
         include includes/auth.pug
-        div(class="main-menu")
-            h1 Образовательные организации Санкт-Петербурга
-            div(class="menu-links")
-                a(href="/" class="other-a") Общая статистика
-                a(href="/search-by-name" class="other-a") Поиск по названию
-                a(class="current-a") Расширенный поиск
-                if admin
-                    a(href="/add-organization" class="other-a") Добавить организацию +
-        div(class="filters")
-            form(action="/extended-search" method="get")
+        include includes/menu.pug
+        +menu(3)
+        
+        div.form-container
+            form.form(action="/extended-search" method="get")
                 .field
                     label(for="select_type") Тип организации
                     select(id="select_type" name="type")
@@ -67,8 +62,9 @@ html(lang="en")
                         p <b>Тип:</b> #{org.type_name}
         br
         .pagination
-            a(disabled=(page===1) href=`/extended-search?page=1&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angles-left"></i>
-            a(disabled=(page===1) href=`/extended-search?page=${page-1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angle-left"></i>
-            p Номер страницы: #{page}
+            a(disabled=(page<=1) href=`/extended-search?page=1&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angles-left"></i>
+            a(disabled=(page<=1) href=`/extended-search?page=${page-1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angle-left"></i>
+            if totalPages > 1
+                p Номер страницы: #{page}
             a(disabled=(page===totalPages) href=`/extended-search?page=${page+1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angle-right"></i>
             a(disabled=(page===totalPages) href=`/extended-search?page=${totalPages}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angles-right"></i>

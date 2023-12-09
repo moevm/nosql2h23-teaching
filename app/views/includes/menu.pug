@@ -1,0 +1,12 @@
+mixin tab-link(tab, index, href, title)
+    a(href=href class=(tab === index ? "current-a" : "other-a") current=(tab === index))= title
+
+mixin menu(tab=0)
+    div(class="main-menu")
+        h1 Образовательные организации Санкт-Петербурга
+        div(class="menu-links")
+            +tab-link(tab, 1, "/", "Общая статистика")
+            +tab-link(tab, 2, "/search-by-name", "Поиск по названию")
+            +tab-link(tab, 3, "/extended-search", "Расширенный поиск")
+            if admin
+                +tab-link(tab, 4, "/add-organization", "Добавить организацию")

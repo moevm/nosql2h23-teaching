@@ -41,10 +41,13 @@ router.get('/search-by-name', auth, async (req, res) => {
 
 	const limit = 3;
 	let page = parseInt(req.query.page) || 1;
-
 	const searchQuery = req.query.search || '';
 
-	orgInfo = orgInfo.filter((info) => info.name.toLowerCase().includes(searchQuery.toLowerCase()));
+	orgInfo = orgInfo.filter(
+		(info) =>
+			info.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			info.short_name.toLowerCase().includes(searchQuery.toLowerCase())
+	);
 
 	const totalPages = Math.ceil(orgInfo.length / limit);
 	page = Math.min(Math.max(page, 1), totalPages);
@@ -99,9 +102,11 @@ router.get('/extended-search', auth, async (req, res) => {
 	queryParams.category = req.query.category || '-1';
 	queryParams.location = req.query.location || '-1';
 
-	orgInfo = orgInfo.filter((info) => {
-		info.name.toLowerCase().includes(queryParams.search.toLowerCase());
-	});
+	orgInfo = orgInfo.filter(
+		(info) =>
+			info.name.toLowerCase().includes(queryParams.search.toLowerCase()) ||
+			info.short_name.toLowerCase().includes(queryParams.search.toLowerCase())
+	);
 	if (queryParams.type != '-1') orgInfo = orgInfo.filter((info) => info.type == queryParams.type);
 	if (queryParams.subtype != '-1')
 		orgInfo = orgInfo.filter((info) => info.subtype == queryParams.subtype);
@@ -159,9 +164,9 @@ router.get('/add-organization', auth, async (req, res) => {
 router.get('/add', auth, async (req, res) => {
 	const db = getDB();
 	let ids = await db.getArray('ids');
-	if (ids.includes(req.query.id) || req.query.id == '') {
+	if (req.query.id === '' || ids.includes(req.query.id)) {
 		return res.render('addOrganization', {
-			msg: 'ОШИБКА: Организация с введённым ОГРН уже существует / не введён ОГРН',
+			msg: 'Организация с введённым ОГРН уже существует / не введён ОГРН',
 			admin: req.admin,
 			locations: enums.locations,
 			types: enums.types,

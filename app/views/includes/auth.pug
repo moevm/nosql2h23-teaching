@@ -12,11 +12,12 @@ script(src="/public/scripts/db.js")
             label(for="password-inp") Пароль
             input(id="password-inp" type="password" name="password" placeholder="Пароль")
         button(onclick="authorize(event)") Авторизоваться
-div(class="import-export-btns")
-    input#file(type="file" style="visibility:hidden" accept=".json" onchange='onFileChange(event)')
-    button(onclick="document.getElementById('file').click()") Import
-    button(onclick="exportData()") Export
 div(class="roles")
+    if admin
+        div(class="import-export-btns")
+            input#file(type="file" style="visibility:hidden" accept=".json" onchange='onFileChange(event)')
+            button(onclick="document.getElementById('file').click()") Import
+            button(onclick="exportData()") Export
     p Роль: #{admin ? "Администратор" : "Пользователь"}
     if admin
         button(onclick="logout()") Выйти
