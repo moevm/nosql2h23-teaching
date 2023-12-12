@@ -11,14 +11,12 @@ services:
             ADMIN_NAME: 123
             ADMIN_PASSWORD: 123
         ports:
-            - '3000:3000'
+            - '127.0.0.1:3000:3000'
         depends_on:
             - memcached
         command: sh -cx "npm run parse && npm run import_parsed && npm run start"
 
     memcached:
         container_name: memcached
-        image: memcached:latest
-        ports:
-            - '11211:11211'
+        image: memcached:1.6-alpine
         restart: always
