@@ -10,7 +10,7 @@ html(lang="en")
         include includes/auth.pug
         include includes/menu.pug
         +menu(3)
-        
+
         div.form-container
             form.form(action="/extended-search" method="get")
                 .field
@@ -49,9 +49,10 @@ html(lang="en")
                                 option(value=index selected="selected") #{location} 
                             else 
                                 option(value=index) #{location}  
-                .field
-                    label(for="name") Название организации
-                    input(id="name" class="search-input" type="text" name="search" placeholder="Название организации" value=`${queryParams.search}`)
+                each field in [{name: "search", def: "Название организации"}, {name: "fias", def: "Код здания ФИАС"}, {name: "address", def: "Адрес"}, {name: "mngr_pos", def: "Должность руководителя"}, {name: "mngr_name", def: "ФИО руководителя"}, {name: "id", def: "ОГРН"}, {name: "tel", def: "Телефон"}, {name: "website", def: "Адрес сайта"}, {name: "email", def: "Адрес электронной почты"}]
+                    .field 
+                        label(for=field.name) #{field.def}
+                        input(id=field.name class="search-input" type="text" name=field.name placeholder=field.def value=`${queryParams[field.name]}`)
                 button(class="search-btn" type="submit") Поиск
         ul(class="list")
             each org in orgsOnPage
@@ -62,9 +63,9 @@ html(lang="en")
                         p <b>Тип:</b> #{org.type_name}
         br
         .pagination
-            a(disabled=(page<=1) href=`/extended-search?page=1&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angles-left"></i>
-            a(disabled=(page<=1) href=`/extended-search?page=${page-1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angle-left"></i>
+            a(disabled=(page<=1) href=`/extended-search?page=1&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}&fias=${queryParams.fias}&address=${queryParams.address}&mngr_pos=${queryParams.mngr_pos}&mngr_name=${queryParams.mngr_name}&id=${queryParams.id}&tel=${queryParams.tel}&website=${queryParams.website}&email=${queryParams.email}`) <i class="fa-solid fa-angles-left"></i>
+            a(disabled=(page<=1) href=`/extended-search?page=${page-1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}&fias=${queryParams.fias}&address=${queryParams.address}&mngr_pos=${queryParams.mngr_pos}&mngr_name=${queryParams.mngr_name}&id=${queryParams.id}&tel=${queryParams.tel}&website=${queryParams.website}&email=${queryParams.email}`) <i class="fa-solid fa-angle-left"></i>
             if totalPages > 1
                 p Номер страницы: #{page}
-            a(disabled=(page===totalPages) href=`/extended-search?page=${page+1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angle-right"></i>
-            a(disabled=(page===totalPages) href=`/extended-search?page=${totalPages}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}`) <i class="fa-solid fa-angles-right"></i>
+            a(disabled=(page===totalPages) href=`/extended-search?page=${page+1}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}&fias=${queryParams.fias}&address=${queryParams.address}&mngr_pos=${queryParams.mngr_pos}&mngr_name=${queryParams.mngr_name}&id=${queryParams.id}&tel=${queryParams.tel}&website=${queryParams.website}&email=${queryParams.email}`) <i class="fa-solid fa-angle-right"></i>
+            a(disabled=(page===totalPages) href=`/extended-search?page=${totalPages}&search=${queryParams.search}&type=${queryParams.type}&subtype=${queryParams.subtype}&category=${queryParams.category}&location=${queryParams.location}&fias=${queryParams.fias}&address=${queryParams.address}&mngr_pos=${queryParams.mngr_pos}&mngr_name=${queryParams.mngr_name}&id=${queryParams.id}&tel=${queryParams.tel}&website=${queryParams.website}&email=${queryParams.email}`) <i class="fa-solid fa-angles-right"></i>

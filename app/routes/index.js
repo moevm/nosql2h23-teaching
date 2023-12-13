@@ -79,24 +79,44 @@ router.get('/extended-search', auth, async (req, res) => {
 	const subtypes = await Promise.all(ids.map((id) => db.get(`subtype:${id}`)));
 	const categories = await Promise.all(ids.map((id) => db.get(`category:${id}`)));
 	const locations = await Promise.all(ids.map((id) => db.get(`location:${id}`)));
+	const fiases = await Promise.all(ids.map((id) => db.get(`fias:${id}`)));
+	const mngr_poses = await Promise.all(ids.map((id) => db.get(`mngr_pos:${id}`)));
+	const mngr_names = await Promise.all(ids.map((id) => db.get(`mngr_name:${id}`)));
+	const tels = await Promise.all(ids.map((id) => db.get(`tel:${id}`)));
+	const websites = await Promise.all(ids.map((id) => db.get(`website:${id}`)));
+	const emails = await Promise.all(ids.map((id) => db.get(`email:${id}`)));
 
 	let orgInfo = [];
 	ids.forEach((id, index) => {
 		orgInfo.push({
 			id,
 			type_name: enums.types[+types[index]],
-			address: addresses[index],
 			short_name: short_names[index],
 			name: names[index],
 			type: types[index],
 			subtype: subtypes[index],
 			category: categories[index],
 			location: locations[index],
+			fias: fiases[index],
+			address: addresses[index],
+			mngr_pos: mngr_poses[index],
+			mngr_name: mngr_names[index],
+			tel: tels[index],
+			website: websites[index],
+			email: emails[index],
 		});
 	});
 
 	const queryParams = {};
-	queryParams.search = req.query.search || '';
+	queryParams.search = req.query.search || '';	
+	queryParams.address = req.query.address || '';
+	queryParams.fias = req.query.fias || '';
+	queryParams.mngr_pos = req.query.mngr_pos || '';
+	queryParams.mngr_name = req.query.mngr_name || '';
+	queryParams.id = req.query.id || '';
+	queryParams.tel = req.query.tel || '';
+	queryParams.website = req.query.website || '';
+	queryParams.email = req.query.email || '';
 	queryParams.type = req.query.type || '-1';
 	queryParams.subtype = req.query.subtype || '-1';
 	queryParams.category = req.query.category || '-1';
@@ -107,6 +127,13 @@ router.get('/extended-search', auth, async (req, res) => {
 			info.name.toLowerCase().includes(queryParams.search.toLowerCase()) ||
 			info.short_name.toLowerCase().includes(queryParams.search.toLowerCase())
 	);
+
+	for (let field of ["address", "fias", "mngr_pos", "mngr_name", "id", "tel", "website", "email"]) {
+		orgInfo = orgInfo.filter(
+			(info) => info[field].toLowerCase().includes(queryParams[field].toLowerCase())
+		);
+	}
+
 	if (queryParams.type != '-1') orgInfo = orgInfo.filter((info) => info.type == queryParams.type);
 	if (queryParams.subtype != '-1')
 		orgInfo = orgInfo.filter((info) => info.subtype == queryParams.subtype);
