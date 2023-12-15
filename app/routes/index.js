@@ -108,7 +108,7 @@ router.get('/extended-search', auth, async (req, res) => {
 	});
 
 	const queryParams = {};
-	queryParams.search = req.query.search || '';	
+	queryParams.search = req.query.search || '';
 	queryParams.address = req.query.address || '';
 	queryParams.fias = req.query.fias || '';
 	queryParams.mngr_pos = req.query.mngr_pos || '';
@@ -128,9 +128,18 @@ router.get('/extended-search', auth, async (req, res) => {
 			info.short_name.toLowerCase().includes(queryParams.search.toLowerCase())
 	);
 
-	for (let field of ["address", "fias", "mngr_pos", "mngr_name", "id", "tel", "website", "email"]) {
-		orgInfo = orgInfo.filter(
-			(info) => info[field].toLowerCase().includes(queryParams[field].toLowerCase())
+	for (let field of [
+		'address',
+		'fias',
+		'mngr_pos',
+		'mngr_name',
+		'id',
+		'tel',
+		'website',
+		'email',
+	]) {
+		orgInfo = orgInfo.filter((info) =>
+			info[field].toLowerCase().includes(queryParams[field].toLowerCase())
 		);
 	}
 
@@ -225,7 +234,7 @@ router.post('/import', auth, async (req, res) => {
 		const db = getDB();
 		const { data } = req.body;
 		await importData(data, db);
-		res.status(200).json({ message: 'Import successful' });
+		res.status(200).json({ message: 'Import successful', count: data.ids.length });
 	} catch (error) {
 		console.error('Import error:', error);
 		res.status(500).json({ error: 'Import failed' });

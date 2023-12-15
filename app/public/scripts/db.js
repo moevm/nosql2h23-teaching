@@ -5,9 +5,12 @@ const importData = (data) => {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({ data }),
-	}).then((res) => {
-		if (res.status === 200) window.location.replace('/');
-		else alert('Error occured while importing data');
+	}).then(async (res) => {
+		if (res.status === 200) {
+			const { count } = await res.json();
+			window.location.replace('/');
+			alert(`Успешно ипортировано файлов: ${count}`);
+		} else alert('Error occured while importing data');
 	});
 };
 
