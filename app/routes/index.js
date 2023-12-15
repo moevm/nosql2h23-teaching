@@ -61,6 +61,7 @@ router.get('/search-by-name', auth, async (req, res) => {
 		orgsOnPage,
 		page,
 		totalPages,
+		totalItems: orgInfo.length,
 		searchQuery,
 	});
 });
@@ -167,6 +168,7 @@ router.get('/extended-search', auth, async (req, res) => {
 		categories: enums.categories,
 		page,
 		totalPages,
+		totalItems: orgInfo.length,
 		queryParams,
 	});
 });

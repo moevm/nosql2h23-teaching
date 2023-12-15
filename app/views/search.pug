@@ -15,6 +15,8 @@ html(lang="en")
             form(action="/search-by-name" method="get")
                 input(class="search-input" type="text" name="search" placeholder="Введите название организации" value=`${searchQuery}`)
                 button(class="search-btn" type="submit") Поиск
+        .result-count 
+            p Найдено результатов: #{totalItems}
         ul(class="list")
             each org in orgsOnPage
                 li
@@ -27,7 +29,7 @@ html(lang="en")
             a(disabled=(page<=1) href=`/search-by-name?page=1&search=${searchQuery}`) <i class="fa-solid fa-angles-left"></i>
             a(disabled=(page<=1) href=`/search-by-name?page=${page-1}&search=${searchQuery}`) <i class="fa-solid fa-angle-left"></i>
             if totalPages > 1
-                p Номер страницы: #{page}
+                p Номер страницы: #{page} / #{totalPages}
             a(disabled=(page===totalPages) href=`/search-by-name?page=${page+1}&search=${searchQuery}`) <i class="fa-solid fa-angle-right"></i>
             a(disabled=(page===totalPages) href=`/search-by-name?page=${totalPages}&search=${searchQuery}`) <i class="fa-solid fa-angles-right"></i>
             
