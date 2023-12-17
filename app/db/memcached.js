@@ -87,8 +87,26 @@ function addStatistics(org) {
 	]);
 }
 
+async function changeStatistics(orgOld, org) {
+	if (org.type !== orgOld.type) {
+		await this.removeFromArray(`org_type:${orgOld.type}`, orgOld.ogrn);
+		await this.appendArray(`org_type:${org.type}`, org.ogrn);
+	}
+	if (org.subtype !== orgOld.subtype) {
+		await this.removeFromArray(`org_sub_type:${orgOld.subtype}`, orgOld.ogrn);
+		await this.appendArray(`org_sub_type:${org.subtype}`, org.ogrn);
+	}
+	if (org.category !== orgOld.category) {
+		await this.removeFromArray(`org_category:${orgOld.category}`, orgOld.ogrn);
+		await this.appendArray(`org_category:${org.category}`, org.ogrn);
+	}
+	if (org.location !== orgOld.location) {
+		await this.removeFromArray(`org_location:${orgOld.location}`, orgOld.ogrn);
+		await this.appendArray(`org_location:${org.location}`, org.ogrn);
+	}
+}
+
 function removeStatistics(org) {
-	console.log(org);
 	return Promise.all([
 		this.removeFromArray('ids', org.ogrn),
 		this.removeFromArray(`org_type:${org.type}`, org.ogrn),
@@ -183,7 +201,6 @@ async function appendArray(key, value) {
 
 async function removeFromArray(key, value) {
 	let arr = await this.getArray(key);
-	console.log(key + ' ' + value + ' ' + arr);
 	arr = arr.filter((el) => el !== value);
 	await this.setArray(key, arr);
 }
@@ -212,6 +229,7 @@ export const dbConnect = (addr) => {
 		removeFromArray,
 		close,
 		addStatistics,
+		changeStatistics,
 		removeStatistics,
 	};
 	return instance;

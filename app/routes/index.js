@@ -16,35 +16,35 @@ router.get('/', auth, async (req, res) => {
 
 	// await db.appendArray('arr', 12)
 	// console.log(await db.getArray('arr'))
-	const selected = req.query.selected || "type";
+	const selected = req.query.selected || 'type';
 	let needed_enum = null;
-	let prefix = "";
+	let prefix = '';
 	switch (selected) {
-		case "type":
+		case 'type':
 			needed_enum = enums.types;
-			prefix = "org_type:";
+			prefix = 'org_type:';
 			break;
-		case "subtype":
+		case 'subtype':
 			needed_enum = enums.subtypes;
-			prefix = "org_sub_type:";
+			prefix = 'org_sub_type:';
 			break;
-		case "category":
+		case 'category':
 			needed_enum = enums.categories;
-			prefix = "org_category:";
+			prefix = 'org_category:';
 			break;
-		case "location":
+		case 'location':
 			needed_enum = enums.locations;
-			prefix = "org_location:";
+			prefix = 'org_location:';
 			break;
 		default:
 			break;
 	}
 	let stats = [];
-	for(let index in needed_enum){
+	for (let index in needed_enum) {
 		let array = await db.getArray(prefix + index);
-		stats.push({name: needed_enum[index], count: array.length});
+		stats.push({ name: needed_enum[index], count: array.length });
 	}
-	res.render('index', { admin: req.admin , selected_field: selected, stats});
+	res.render('index', { admin: req.admin, selected_field: selected, stats });
 });
 
 router.get('/search-by-name', auth, async (req, res) => {
@@ -252,6 +252,16 @@ router.get('/add', auth, async (req, res) => {
 		subtypes: enums.subtypes,
 		categories: enums.categories,
 	});
+});
+
+router.get('/change', auth, async (req, res) => {
+	const db = getDB();
+	req.query.ogrn = req.query.id;
+
+	const org = await db.getOrganization(req.query.id);
+	await db.setOrganization(req.query);
+	await db.changeStatistics(org, req.query);
+	res.json('Changed');
 });
 
 router.get('/delete', auth, async (req, res) => {
