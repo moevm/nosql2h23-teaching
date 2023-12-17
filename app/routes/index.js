@@ -16,8 +16,35 @@ router.get('/', auth, async (req, res) => {
 
 	// await db.appendArray('arr', 12)
 	// console.log(await db.getArray('arr'))
-
-	res.render('index', { admin: req.admin });
+	const selected = req.query.selected || "type";
+	let needed_enum = null;
+	let prefix = "";
+	switch (selected) {
+		case "type":
+			needed_enum = enums.types;
+			prefix = "org_type:";
+			break;
+		case "subtype":
+			needed_enum = enums.subtypes;
+			prefix = "org_sub_type:";
+			break;
+		case "category":
+			needed_enum = enums.categories;
+			prefix = "org_category:";
+			break;
+		case "location":
+			needed_enum = enums.locations;
+			prefix = "org_location:";
+			break;
+		default:
+			break;
+	}
+	let stats = [];
+	for(let index in needed_enum){
+		let array = await db.getArray(prefix + index);
+		stats.push({name: needed_enum[index], count: array.length});
+	}
+	res.render('index', { admin: req.admin , selected_field: selected, stats});
 });
 
 router.get('/search-by-name', auth, async (req, res) => {
