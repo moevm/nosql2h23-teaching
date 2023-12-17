@@ -214,12 +214,8 @@ router.get('/add', auth, async (req, res) => {
 	}
 	req.query.ogrn = req.query.id;
 	await db.setOrganization(req.query);
-	await db.appendArray('ids', req.query.id);
-	await db.appendArray(`org_type:${req.query.type}`, req.query.id);
-	await db.appendArray(`org_sub_type:${req.query.subtype}`, req.query.id);
-	await db.appendArray(`org_category:${req.query.category}`, req.query.id);
-	await db.appendArray(`org_location:${req.query.location}`, req.query.id);
-	let info = await db.getOrganization(req.query.id);
+	await db.addStatistics(req.query);
+	const info = await db.getOrganization(req.query.id);
 	info.id = req.query.id;
 	res.render('organizationPage', {
 		admin: req.admin,
@@ -229,6 +225,14 @@ router.get('/add', auth, async (req, res) => {
 		subtypes: enums.subtypes,
 		categories: enums.categories,
 	});
+});
+
+router.get('/delete', auth, async (req, res) => {
+	const db = getDB();
+	req.query.ogrn = req.query.id;
+	await db.removeStatistics(req.query);
+	await db.removeOrganization(req.query.id);
+	res.json('Deleted');
 });
 
 router.post('/import', auth, async (req, res) => {

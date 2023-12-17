@@ -56,6 +56,48 @@ function setOrganization(org) {
 	);
 }
 
+function removeOrganization(ogrn) {
+	return this.removeMany([
+		`number:${ogrn}`,
+		`name:${ogrn}`,
+		`short_name:${ogrn}`,
+		`address:${ogrn}`,
+		`fias:${ogrn}`,
+		`mngr_pos:${ogrn}`,
+		`mngr_name:${ogrn}`,
+		`type:${ogrn}`,
+		`subtype:${ogrn}`,
+		`category:${ogrn}`,
+		`tel:${ogrn}`,
+		`location:${ogrn}`,
+		`ogrn:${ogrn}`,
+		`e_diary:${ogrn}`,
+		`website:${ogrn}`,
+		`email:${ogrn}`,
+	]);
+}
+
+function addStatistics(org) {
+	return Promise.all([
+		this.appendArray('ids', org.ogrn),
+		this.appendArray(`org_type:${org.type}`, org.ogrn),
+		this.appendArray(`org_sub_type:${org.subtype}`, org.ogrn),
+		this.appendArray(`org_category:${org.category}`, org.ogrn),
+		this.appendArray(`org_location:${org.location}`, org.ogrn),
+	]);
+}
+
+function removeStatistics(org) {
+	console.log(org);
+	return Promise.all([
+		this.removeFromArray('ids', org.ogrn),
+		this.removeFromArray(`org_type:${org.type}`, org.ogrn),
+		this.removeFromArray(`org_sub_type:${org.subtype}`, org.ogrn),
+		this.removeFromArray(`org_category:${org.category}`, org.ogrn),
+		this.removeFromArray(`org_location:${org.location}`, org.ogrn),
+	]);
+}
+
 function get(key) {
 	return new Promise((resolve, reject) => {
 		this.memcached.get(key.toString(), (err, data) => {
@@ -67,6 +109,19 @@ function get(key) {
 
 function getMany(keys) {
 	return Promise.all(keys.map((key) => this.get(key)));
+}
+
+function remove(key) {
+	return new Promise((resolve, reject) => {
+		this.memcached.del(key.toString(), (err, data) => {
+			if (err) reject(err);
+			resolve(data);
+		});
+	});
+}
+
+function removeMany(keys) {
+	return Promise.all(keys.map((key) => this.remove(key)));
 }
 
 async function getOrganization(ogrn) {
@@ -126,6 +181,13 @@ async function appendArray(key, value) {
 	await this.setArray(key, arr);
 }
 
+async function removeFromArray(key, value) {
+	let arr = await this.getArray(key);
+	console.log(key + ' ' + value + ' ' + arr);
+	arr = arr.filter((el) => el !== value);
+	await this.setArray(key, arr);
+}
+
 function close() {
 	this.memcached.end();
 }
@@ -137,14 +199,20 @@ export const dbConnect = (addr) => {
 		memcached: new Memcached(addr),
 		set,
 		get,
+		remove,
 		getMany,
 		setMany,
+		removeMany,
 		getOrganization,
 		setOrganization,
+		removeOrganization,
 		setArray,
 		getArray,
 		appendArray,
+		removeFromArray,
 		close,
+		addStatistics,
+		removeStatistics,
 	};
 	return instance;
 };
