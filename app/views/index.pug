@@ -6,7 +6,28 @@ html(lang="en")
         title Образовательные организации Санкт-Петербурга
         link(rel='stylesheet', href='/public/style.css')
         script(src="https://kit.fontawesome.com/ac0925c6df.js" crossorigin="anonymous")
+        script(src="/public/scripts/stats.js") 
     body 
         include includes/auth.pug
         include includes/menu.pug
         +menu(1)
+        label(for="stats_select") Статистика по: 
+        select(id="stats_select" name="selected" onchange="selectChanged(this)")
+            if selected_field == "type"
+                option(value="type" selected) По типу организации
+            else 
+                option(value="type") По типу организации
+            if selected_field == "subtype"
+                option(value="subtype" selected) По подтипу организации
+            else 
+                option(value="subtype") По подтипу организации
+            if selected_field == "category"
+                option(value="category" selected) По виду организации
+            else 
+                option(value="category") По виду организации
+            if selected_field == "location"
+                option(value="location" selected) По району
+            else 
+                option(value="location") По району
+        each stat in stats 
+            p #{stat.name} <span>#{stat.count}</span>
