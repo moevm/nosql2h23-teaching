@@ -13,6 +13,7 @@ html(lang="en")
         
         .form-container
             p.err #{msg}
+            p <span class="err"><b>*</b></span> - обязательные поля
             form.form(action="/add" method="get")
                 .field
                     label(for="select_type") Тип организации
@@ -40,13 +41,13 @@ html(lang="en")
                         option(value="0") Отсутствует
                         option(value="1") Включен
                 .field
-                    label(for="name") Название организации
+                    label(for="name") Название организации <span class="err">*</span>
                     input(id="name" class="search-input" type="text" name="name" placeholder="Название организации")
                 .field
-                    label(for="short_name") Короткое наименование
+                    label(for="short_name") Короткое наименование <span class="err">*</span>
                     input(id="short_name" class="search-input" type="text" name="short_name" placeholder="Короткое наименование")
                 .field
-                    label(for="address") Адрес
+                    label(for="address") Адрес <span class="err">*</span>
                     input(id="address" class="search-input" type="text" name="address" placeholder="Адрес")
                 .field
                     label(for="fias") Код здания ФИАС
@@ -61,7 +62,7 @@ html(lang="en")
                     label(for="tel") Телефон
                     input(id="tel" class="search-input" type="text" name="tel" placeholder="Телефон")
                 .field
-                    label(for="id") ОГРН организации
+                    label(for="id") ОГРН организации <span class="err">*</span>
                     input(id="id" class="search-input" type="text" name="id" placeholder="ОГРН организации")
                 .field
                     label(for="website") Адрес сайта в сети Интернет

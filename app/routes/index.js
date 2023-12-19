@@ -229,9 +229,9 @@ router.get('/add-organization', auth, async (req, res) => {
 router.get('/add', auth, async (req, res) => {
 	const db = getDB();
 	let ids = await db.getArray('ids');
-	if (req.query.id === '' || ids.includes(req.query.id)) {
+	if (req.query.name === '' || req.query.address === '' || req.query.short_name === '' || req.query.id === '' || ids.includes(req.query.id)) {
 		return res.render('addOrganization', {
-			msg: 'Организация с введённым ОГРН уже существует / не введён ОГРН',
+			msg: 'Введены не все обязательные поля / Организация с введённым ОГРН уже существует',
 			admin: req.admin,
 			locations: enums.locations,
 			types: enums.types,
