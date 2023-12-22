@@ -8,14 +8,7 @@ const router = express.Router();
 
 router.get('/', auth, async (req, res) => {
 	const db = getDB();
-	// await db.set('key1', 'value1123')
-	// console.log(await db.get('key1'))
 
-	// await db.setArray('arr', [1, 2])
-	// console.log(await db.getArray('arr'))
-
-	// await db.appendArray('arr', 12)
-	// console.log(await db.getArray('arr'))
 	const selected = req.query.selected || 'type';
 	let needed_enum = null;
 	let prefix = '';
@@ -215,6 +208,21 @@ router.get('/organization-page', auth, async (req, res) => {
 	});
 });
 
+router.get('/editOrganization', auth, async (req, res) => {
+	const db = getDB();
+	const id = req.query.id;
+	const info = await db.getOrganization(id);
+	info.id = id;
+	res.render('editOrganization', {
+		admin: req.admin,
+		info,
+		locations: enums.locations,
+		types: enums.types,
+		subtypes: enums.subtypes,
+		categories: enums.categories,
+	});
+});
+
 router.get('/add-organization', auth, async (req, res) => {
 	res.render('addOrganization', {
 		msg: '',
@@ -229,7 +237,13 @@ router.get('/add-organization', auth, async (req, res) => {
 router.get('/add', auth, async (req, res) => {
 	const db = getDB();
 	let ids = await db.getArray('ids');
-	if (req.query.name === '' || req.query.address === '' || req.query.short_name === '' || req.query.id === '' || ids.includes(req.query.id)) {
+	if (
+		req.query.name === '' ||
+		req.query.address === '' ||
+		req.query.short_name === '' ||
+		req.query.id === '' ||
+		ids.includes(req.query.id)
+	) {
 		return res.render('addOrganization', {
 			msg: 'Введены не все обязательные поля / Организация с введённым ОГРН уже существует',
 			admin: req.admin,
@@ -254,22 +268,31 @@ router.get('/add', auth, async (req, res) => {
 	});
 });
 
-router.get('/change', auth, async (req, res) => {
+router.get('/edit', auth, async (req, res) => {
 	const db = getDB();
 	req.query.ogrn = req.query.id;
 
 	const org = await db.getOrganization(req.query.id);
 	await db.setOrganization(req.query);
 	await db.changeStatistics(org, req.query);
-	res.json('Changed');
+	const info = await db.getOrganization(req.query.id);
+	info.id = req.query.id;
+	res.render('organizationPage', {
+		admin: req.admin,
+		info,
+		locations: enums.locations,
+		types: enums.types,
+		subtypes: enums.subtypes,
+		categories: enums.categories,
+	});
 });
 
 router.get('/delete', auth, async (req, res) => {
 	const db = getDB();
-	req.query.ogrn = req.query.id;
-	await db.removeStatistics(req.query);
+	const org = await db.getOrganization(req.query.id);
+	await db.removeStatistics(org);
 	await db.removeOrganization(req.query.id);
-	res.json('Deleted');
+	res.json({ msg: 'Deleted' });
 });
 
 router.post('/import', auth, async (req, res) => {

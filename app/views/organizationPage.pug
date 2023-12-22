@@ -5,6 +5,7 @@ html(lang="en")
         title #{info.short_name}
         link(rel='stylesheet', href='/public/style.css')
         script(src="https://kit.fontawesome.com/ac0925c6df.js" crossorigin="anonymous")
+        script(src="/public/scripts/org.js") 
     body 
         include includes/auth.pug
         include includes/menu.pug
@@ -38,4 +39,8 @@ html(lang="en")
                     a(href=`${info.website}`) #{info.website}
             if info.email
                 p <b>Адрес электронной почты:</b> #{info.email}
+        if admin 
+            .info-buttons 
+                button.edit(onclick=`window.location.replace('/editOrganization?id=${info.id}')`) Изменить
+                button.delete(onclick=`deleteOrg(${info.id})`) Удалить
             

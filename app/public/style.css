@@ -199,6 +199,29 @@ h1 {
   margin-bottom: 6px;
 }
 
+.info-buttons button {
+  padding: 8px;
+  margin-top: 15px;
+  width: 120px;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 15px;
+  color: white;
+  background-color: #5e5e5e;
+  transition: all 200ms ease;
+}
+.info-buttons button:hover {
+  background-color: #484848;
+}
+.info-buttons .delete {
+  margin-left: 15px;
+  background-color: darkred;
+  color: white;
+}
+.info-buttons .delete:hover {
+  background-color: #cc0000;
+}
 .overlay, .dialog {
   position: fixed;
   visibility: hidden;

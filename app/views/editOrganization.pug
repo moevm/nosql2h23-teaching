@@ -1,0 +1,73 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Образовательные организации Санкт-Петербурга
+        link(rel='stylesheet', href='/public/style.css')
+        script(src="https://kit.fontawesome.com/ac0925c6df.js" crossorigin="anonymous")
+    body 
+        include includes/auth.pug
+        include includes/menu.pug
+        +menu()
+        
+        .form-container
+            p.err #{msg}
+            p <span class="err"><b>*</b></span> - обязательные поля
+            form.form(action="/edit" method="get")
+                .field
+                    label(for="select_type") Тип организации
+                    select(id="select_type" name="type")
+                        each type, index in types 
+                            option(value=index selected=(index===+info.type)) #{type} 
+                .field
+                    label(for="select_subtype") Подтип организации
+                    select(id="select_subtype" name="subtype")
+                        each subtype, index in subtypes
+                            option(value=index selected=(index===+info.subtype)) #{subtype} 
+                .field
+                    label(for="select_category") Вид организации
+                    select(id="select_category" name="category")
+                        each category, index in categories
+                            option(value=index selected=(index===+info.category)) #{category} 
+                .field
+                    label(for="select_location") Район
+                    select(id="select_location" name="location")
+                        each location, index in locations
+                            option(value=index selected=(index===+info.location)) #{location}
+                .field
+                    label(for="select_e_diary") Статус сервиса "Электронный дневник"
+                    select(id="select_e_diary" name="e_diary")
+                        option(value="0" selected=(info.e_diary==="0")) Отсутствует
+                        option(value="1" selected=(info.e_diary==="1")) Включен
+                .field
+                    label(for="name") Название организации <span class="err">*</span>
+                    input(id="name" class="search-input" type="text" name="name" placeholder="Название организации" required value=info.name)
+                .field
+                    label(for="short_name") Короткое наименование <span class="err">*</span>
+                    input(id="short_name" class="search-input" type="text" name="short_name" placeholder="Короткое наименование" required value=info.short_name)
+                .field
+                    label(for="address") Адрес <span class="err">*</span>
+                    input(id="address" class="search-input" type="text" name="address" placeholder="Адрес" required value=info.address)
+                .field
+                    label(for="fias") Код здания ФИАС
+                    input(id="fias" class="search-input" type="text" name="fias" placeholder="Код здания ФИАС" value=info.fias)
+                .field
+                    label(for="mngr_pos") Должность руководителя
+                    input(id="mngr_pos" class="search-input" type="text" name="mngr_pos" placeholder="Должность руководителя" value=info.mngr_pos)
+                .field
+                    label(for="mngr_name") ФИО руководител
+                    input(id="mngr_name" class="search-input" type="text" name="mngr_name" placeholder="ФИО руководител" value=info.mngr_name)
+                .field
+                    label(for="tel") Телефон
+                    input(id="tel" class="search-input" type="text" name="tel" placeholder="Телефон" value=info.tel)
+                .field(hidden)
+                    label(for="id") ОГРН организации <span class="err">*</span>
+                    input(id="id" class="search-input" type="text" name="id" placeholder="ОГРН организации" required value=info.id)
+                .field
+                    label(for="website") Адрес сайта в сети Интернет
+                    input(id="website" class="search-input" type="text" name="website" placeholder="Адрес сайта в сети Интернет" value=info.website)
+                .field
+                    label(for="email") Адрес электронной почты
+                    input(id="email" class="search-input" type="text" name="email" placeholder="Адрес электронной почты" value=info.email)
+                button(class="search-btn" type="submit") Изменить
