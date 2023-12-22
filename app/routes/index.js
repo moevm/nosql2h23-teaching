@@ -2,7 +2,7 @@ import express from 'express';
 import { getDB } from '../db/memcached.js';
 import { enums } from '../db/enums_db.js';
 import { importData, exportData } from '../db/importExportData.js';
-import { auth } from '../middleware/auth.js';
+import { auth, authProtected } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -208,13 +208,13 @@ router.get('/organization-page', auth, async (req, res) => {
 	});
 });
 
-router.get('/editOrganization', auth, async (req, res) => {
+router.get('/editOrganization', authProtected, async (req, res) => {
 	const db = getDB();
 	const id = req.query.id;
 	const info = await db.getOrganization(id);
 	info.id = id;
 	res.render('editOrganization', {
-		admin: req.admin,
+		admin: true,
 		info,
 		locations: enums.locations,
 		types: enums.types,
@@ -223,10 +223,10 @@ router.get('/editOrganization', auth, async (req, res) => {
 	});
 });
 
-router.get('/add-organization', auth, async (req, res) => {
+router.get('/add-organization', authProtected, async (req, res) => {
 	res.render('addOrganization', {
 		msg: '',
-		admin: req.admin,
+		admin: true,
 		locations: enums.locations,
 		types: enums.types,
 		subtypes: enums.subtypes,
@@ -234,7 +234,7 @@ router.get('/add-organization', auth, async (req, res) => {
 	});
 });
 
-router.get('/add', auth, async (req, res) => {
+router.get('/add', authProtected, async (req, res) => {
 	const db = getDB();
 	let ids = await db.getArray('ids');
 	if (
@@ -246,7 +246,7 @@ router.get('/add', auth, async (req, res) => {
 	) {
 		return res.render('addOrganization', {
 			msg: 'Введены не все обязательные поля / Организация с введённым ОГРН уже существует',
-			admin: req.admin,
+			admin: true,
 			locations: enums.locations,
 			types: enums.types,
 			subtypes: enums.subtypes,
@@ -268,7 +268,7 @@ router.get('/add', auth, async (req, res) => {
 	});
 });
 
-router.get('/edit', auth, async (req, res) => {
+router.get('/edit', authProtected, async (req, res) => {
 	const db = getDB();
 	req.query.ogrn = req.query.id;
 
@@ -278,7 +278,7 @@ router.get('/edit', auth, async (req, res) => {
 	const info = await db.getOrganization(req.query.id);
 	info.id = req.query.id;
 	res.render('organizationPage', {
-		admin: req.admin,
+		admin: true,
 		info,
 		locations: enums.locations,
 		types: enums.types,
@@ -287,7 +287,7 @@ router.get('/edit', auth, async (req, res) => {
 	});
 });
 
-router.get('/delete', auth, async (req, res) => {
+router.get('/delete', authProtected, async (req, res) => {
 	const db = getDB();
 	const org = await db.getOrganization(req.query.id);
 	await db.removeStatistics(org);
