@@ -381,4 +381,53 @@ h1 {
   margin-right: 10px;
 }
 
+.stat-container {
+  width: 100%;
+  margin: 28px 0;
+  background-color: #216477;
+  border-radius: 20px;
+  padding-bottom: 20px;
+}
+
+.stat-select {
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: #b3d6e0;
+  border-radius: 15px;
+  padding: 20px 35px;
+}
+.stat-select label {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+.stat-select select {
+  width: 300px;
+  padding: 8px 15px 8px;
+  border: none;
+  border-radius: 15px;
+  margin-left: 10px;
+  font-size: 1.1rem;
+}
+
+.stat {
+  position: relative;
+  background-color: #b3d6e0;
+  margin: 10px 20px;
+  border-radius: 15px;
+}
+.stat .name {
+  padding: 10px 100px 10px 35px;
+}
+.stat .count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  text-align: center;
+  background-color: #fff;
+  width: 70px;
+  height: 100%;
+  border-radius: 15px;
+}
+
 /*# sourceMappingURL=style.css.map */
