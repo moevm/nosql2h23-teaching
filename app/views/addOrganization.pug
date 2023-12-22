@@ -42,13 +42,13 @@ html(lang="en")
                         option(value="1") Включен
                 .field
                     label(for="name") Название организации <span class="err">*</span>
-                    input(id="name" class="search-input" type="text" name="name" placeholder="Название организации")
+                    input(id="name" class="search-input" type="text" name="name" placeholder="Название организации" required)
                 .field
                     label(for="short_name") Короткое наименование <span class="err">*</span>
-                    input(id="short_name" class="search-input" type="text" name="short_name" placeholder="Короткое наименование")
+                    input(id="short_name" class="search-input" type="text" name="short_name" placeholder="Короткое наименование" required)
                 .field
                     label(for="address") Адрес <span class="err">*</span>
-                    input(id="address" class="search-input" type="text" name="address" placeholder="Адрес")
+                    input(id="address" class="search-input" type="text" name="address" placeholder="Адрес" required)
                 .field
                     label(for="fias") Код здания ФИАС
                     input(id="fias" class="search-input" type="text" name="fias" placeholder="Код здания ФИАС")
@@ -63,7 +63,7 @@ html(lang="en")
                     input(id="tel" class="search-input" type="text" name="tel" placeholder="Телефон")
                 .field
                     label(for="id") ОГРН организации <span class="err">*</span>
-                    input(id="id" class="search-input" type="text" name="id" placeholder="ОГРН организации")
+                    input(id="id" class="search-input" type="text" name="id" placeholder="ОГРН организации" required)
                 .field
                     label(for="website") Адрес сайта в сети Интернет
                     input(id="website" class="search-input" type="text" name="website" placeholder="Адрес сайта в сети Интернет")
